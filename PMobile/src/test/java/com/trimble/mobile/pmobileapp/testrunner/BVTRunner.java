@@ -12,11 +12,11 @@ import cucumber.api.testng.TestNGCucumberRunner;
 
 @CucumberOptions(
 		plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
-		features = {"src/test/resources/PMobileAppFeatures/MediaManager.feature"},  
+		features = {"src/test/resources/PMobileAppFeatures"},  
 		glue = {"com.trimble.mobile.pmobileapp.stepdefinitions"},
 		//tags = {"@BVT"},
 		monochrome = true,
-		dryRun = true
+		dryRun = false
 		)
 
 public class BVTRunner {  

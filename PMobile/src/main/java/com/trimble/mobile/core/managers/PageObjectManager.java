@@ -16,10 +16,41 @@ public class PageObjectManager {
 	private AppiumDriver<WebElement> driver;
 
 	/**
+	 * All the Page Objects have to be declared here
+	 */
+	private LoginPage loginPage;
+	private HomePage homePage;
+	private ApplicationToolBar applicationToolBar;
+	private DriverPage driverPage;
+	private LogoutPage logoutPage;
+	
+	/**
 	 * @param driver
 	 */
 	public PageObjectManager(AppiumDriver<WebElement> driver) {
 		this.driver = driver;
+	}
+
+	public LoginPage getSignInPage() {
+		return (loginPage == null)
+				? loginPage = new LoginPage(driver)
+				: loginPage;
+	}
+
+	public HomePage getHomePage() {
+		return (homePage == null) ? homePage = new HomePage(driver) : homePage;
+	}
+	
+	public ApplicationToolBar getToolBar() {
+		return (applicationToolBar == null) ? applicationToolBar = new ApplicationToolBar(driver) : applicationToolBar;
+	}
+
+	public DriverPage getDriverPage() {
+		return (driverPage == null) ? driverPage = new DriverPage(driver) : driverPage;
+	}
+
+	public LogoutPage getLogoutPage() {
+		return (logoutPage == null) ? logoutPage = new LogoutPage(driver) : logoutPage;
 	}
 
 }
