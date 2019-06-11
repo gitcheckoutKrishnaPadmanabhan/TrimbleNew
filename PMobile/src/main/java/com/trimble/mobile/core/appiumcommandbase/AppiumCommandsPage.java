@@ -41,6 +41,7 @@ public class AppiumCommandsPage {
 	 */
 	public AppiumCommandsPage(AppiumDriver<WebElement> driver) {
 		this.appiumDriver = driver;
+		// To Do - Need to revisit & update web driver wait time as required based on the app performance
 		wait = new WebDriverWait(driver, 30);
 	}
 
