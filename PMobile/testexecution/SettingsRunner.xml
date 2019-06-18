@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">  
+<suite name="Google Suite" verbose="1" thread-count="1" parallel="tests" configfailurepolicy="continue">  
+<test name="Maine Automation">
+		 <classes>
+			<class name="com.trimble.mobile.pmobileapp.testrunner.BVTRunner"> </class>
+		</classes>
+	</test>
+</suite>
