@@ -100,6 +100,21 @@ public class AppiumCommandsPage {
 		return webelement.isDisplayed();
 	}
 	
+	
+	/**
+	 * @param webelement
+	 * @return true or false
+	 */
+	public boolean verifyElementNotPresent(WebElement webelement) {
+	    try {
+	        webelement.isDisplayed();
+	        return true;
+	    } catch (org.openqa.selenium.NoSuchElementException e) {
+	        return false;
+	    }
+	}
+	
+	
 	/**
 	 * @param webelement
 	 * @return true or false
