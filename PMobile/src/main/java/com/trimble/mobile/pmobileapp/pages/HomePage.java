@@ -30,6 +30,36 @@ public class HomePage extends AppiumCommandsPage {
 	@FindAll(@FindBy(id="navigatoritem_label_textview"))
 	private List<WebElement> moduleMenu;
 	
+	@FindBy(id = "pnetpage_homebutton_imagebutton")
+	private WebElement peoplenetLogo;
+	
+	@FindBy(id = "pnetpage_titletext_textview")
+	private WebElement homeText;
+	
+	@FindBy(xpath="//*[@text='Messaging']")
+	private WebElement messagingButton;
+	
+	@FindBy(xpath="//*[@text='AOBRD eDriver Logs']")
+	private WebElement AOBRDButton;
+	
+	@FindBy(xpath="//*[@text='Driver']")
+	private WebElement driverButton;
+	
+	@FindBy(xpath="//*[@text='System']")
+	private WebElement systemButton;
+	
+	@FindBy(xpath="//*[@text='Workflow']")
+	private WebElement workflowButton;
+	
+	@FindBy(xpath="//*[@text='Navigation']")
+	private WebElement navigationButton;
+	
+	@FindBy(xpath="//*[@text='Panic Alarm']")
+	private WebElement panicAlarmButton;
+	
+	@FindBy(xpath="//*[@text='O.E.R.']")
+	private WebElement oerButton;
+	
 	public HomePage(AppiumDriver<WebElement> driver) {
 		super(driver);
 		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
@@ -59,5 +89,17 @@ public class HomePage extends AppiumCommandsPage {
 		int index = getModuleIndex(module);
 		clickElement(moduleMenu.get(index));
 	}
+	
+	public void clickSubSections(String menu) {
+
+		switch (menu) {
+
+		case "System":
+			waitForElementVisibility(systemButton);
+			clickElement(systemButton);
+			break;
+
+		}
+	}	
 
 }
