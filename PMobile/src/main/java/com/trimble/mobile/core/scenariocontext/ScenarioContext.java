@@ -21,4 +21,8 @@ public class ScenarioContext {
     public Boolean isContains(String key){
         return scenarioContext.containsKey(key.toString());
     }
+    
+    public void clearContext() {
+    	scenarioContext.clear();
+    }
 }
