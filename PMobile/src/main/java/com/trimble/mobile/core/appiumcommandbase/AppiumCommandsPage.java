@@ -106,14 +106,24 @@ public class AppiumCommandsPage {
 	 * @return true or false
 	 */
 	public boolean verifyElementNotPresent(WebElement webelement) {
+		boolean isElementPresent = false ;
 	    try {
 	        webelement.isDisplayed();
-	        return true;
+	        isElementPresent = true;
 	    } catch (org.openqa.selenium.NoSuchElementException e) {
-	        return false;
+	    	isElementPresent = false;
+	    } catch (Exception e) {
+	    	e.printStackTrace();
 	    }
+	    return isElementPresent;
 	}
 	
+	public Dimension getElementSize(WebElement webelement) {
+	
+	
+		Dimension elementSize = webelement.getSize();
+		 return elementSize;
+	}
 	
 	/**
 	 * @param webelement
@@ -273,7 +283,7 @@ public class AppiumCommandsPage {
 	 * @param activity
 	 *            Kill an application by passing the activity
 	 */
-	public void KillAndroidApplication(String command, String activity) {
+	public void KillAndroidApplication(String activity) {
 		String cmd;
 		try {
 			cmd = "adb shell am force-stop" + " " + activity;
@@ -423,5 +433,10 @@ public class AppiumCommandsPage {
 			e.printStackTrace();
 		}
 	}
+	
+	
+
+	
+	
 
 }
