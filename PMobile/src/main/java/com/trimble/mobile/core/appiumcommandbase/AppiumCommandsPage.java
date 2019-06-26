@@ -67,7 +67,6 @@ public class AppiumCommandsPage {
 			e.printStackTrace();
 		}
 	}
-	
 
 	/**
 	 * @param Webelement
@@ -89,7 +88,7 @@ public class AppiumCommandsPage {
 		try {
 			webelement.click();
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
@@ -98,7 +97,12 @@ public class AppiumCommandsPage {
 	 * @return true or false
 	 */
 	public boolean VerifyElementPresent(WebElement webelement) {
-		return webelement.isDisplayed();
+		try {
+			return webelement.isDisplayed();
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	/**
@@ -284,7 +288,9 @@ public class AppiumCommandsPage {
 	 *            the text
 	 */
 	public void enterText(WebElement webelement, String text) {
+		clickElement(webelement);
 		webelement.sendKeys(text);
+		hideKeyboard();
 	}
 	
 	/**
@@ -302,7 +308,13 @@ public class AppiumCommandsPage {
 
 		int count = 0;
 		try {
-			count = appiumDriver.findElements((By) webelement).size();
+			
+			String xpath = webelement.toString();
+		    String[] test = xpath.split(": ");
+		        xpath = test[1];
+		        count = appiumDriver.findElements(By.xpath(xpath)).size();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -409,5 +421,8 @@ public class AppiumCommandsPage {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void reLaunchApp() {
+		appiumDriver.launchApp();
+	}
 }
