@@ -41,7 +41,7 @@ public class AppiumCommandsPage {
 	 */
 	public AppiumCommandsPage(AppiumDriver<WebElement> driver) {
 		this.appiumDriver = driver;
-		wait = new WebDriverWait(driver, 30);
+		wait = new WebDriverWait(driver, 60);
 	}
 
 	/**
