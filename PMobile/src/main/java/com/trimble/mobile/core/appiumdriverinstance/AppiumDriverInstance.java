@@ -1,20 +1,14 @@
 package com.trimble.mobile.core.appiumdriverinstance;
 
-import java.net.URL;
-
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-
 import com.trimble.mobile.core.filereader.PropertyFileReader;
-
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 public class AppiumDriverInstance {
 
-	private String host;
-	private int port;
 	private String deviceName;
 	private String appPath;
 	private String platform;
@@ -25,23 +19,7 @@ public class AppiumDriverInstance {
 
 	private AppiumDriver<WebElement> appiumDriver;
 
-	AppiumServer server = new AppiumServer();
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
+	AppiumServer appiumServer = new AppiumServer();
 
 	public String getDeviceName() {
 		return deviceName;
@@ -87,7 +65,7 @@ public class AppiumDriverInstance {
 
 		if (appiumDriver == null) {
 			initialize();
-			//server.startServer(getPort());
+			appiumServer.startServer();
 			appiumDriver = getAppiumDriverInstance();
 		}
 		return appiumDriver;
@@ -99,8 +77,6 @@ public class AppiumDriverInstance {
 	private void initialize() {
 		PropertyFileReader handler = new PropertyFileReader(
 				"configurations/configuration.properties");
-		setHost(handler.getproperty("HOST_IP"));
-		setPort(Integer.parseInt(handler.getproperty("HOST_PORT")));
 		setDeviceName(handler.getproperty("DEVICE_NAME"));
 		setPlatform(handler.getproperty("PLATFORM_NAME"));
 		setAppPath(handler.getproperty("APP_PATH"));
@@ -121,7 +97,7 @@ public class AppiumDriverInstance {
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,
 				"Android");
 		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,
-				"uiautomator2");
+				"uiautomator1");
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 5);
 		capabilities.setCapability("skipDeviceInitialization", true);
@@ -152,11 +128,10 @@ public class AppiumDriverInstance {
 		
 		try {
 			
-			String remoteUrl = "http://" + getHost() + ":" + getPort() + "/wd/hub";
 			if ("Android".equalsIgnoreCase(getPlatform())) {
-				appiumDriver = new AppiumDriver<WebElement>(new URL(remoteUrl), this.generateAndroidCapabilities());
-				} else if ("iOS".equalsIgnoreCase(getPlatform())) {
-				appiumDriver = new AppiumDriver<WebElement>(new URL(remoteUrl), this.generateiOSCapabilities());
+				appiumDriver = new AppiumDriver<WebElement>(appiumServer.service.getUrl(), this.generateAndroidCapabilities());
+			} else if ("iOS".equalsIgnoreCase(getPlatform())) {
+				appiumDriver = new AppiumDriver<WebElement>(appiumServer.service.getUrl(), this.generateiOSCapabilities());
 			} else {
 				throw new Exception("Given Platform is not supported");
 			}
@@ -171,7 +146,7 @@ public class AppiumDriverInstance {
 	 */
 	public void tearDown() {
 		appiumDriver.quit();
-		server.stopServer();
+		appiumServer.stopServer();
 	}
 
 }

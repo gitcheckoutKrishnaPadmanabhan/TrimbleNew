@@ -19,6 +19,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.collect.Ordering;
+import com.trimble.mobile.core.filereader.PropertyFileReader;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
@@ -35,15 +36,35 @@ public class AppiumCommandsPage {
 	public IOSDriver<WebElement> iOSDriver;
 
 	public WebDriverWait wait;
+	
+	private String adbPath;
+	
+	public String getAdbPath() {
+		return adbPath;
+	}
 
+	public void setAdbPath(String adbPath) {
+		this.adbPath = adbPath;
+	}
+	
+	/**
+	 * Reads the properties from the configuration file
+	 */
+	private void initialize() {
+		PropertyFileReader handler = new PropertyFileReader(
+				"configurations/configuration.properties");
+		setAdbPath(handler.getproperty("ADB_PATH"));
+	
+	}
 	/**
 	 * @param driver
 	 */
 	public AppiumCommandsPage(AppiumDriver<WebElement> driver) {
+		initialize();
 		this.appiumDriver = driver;
 		wait = new WebDriverWait(driver, 30);
 	}
-
+	
 	/**
 	 * @param Webelement
 	 */
@@ -88,7 +109,7 @@ public class AppiumCommandsPage {
 		try {
 			webelement.click();
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
@@ -100,6 +121,30 @@ public class AppiumCommandsPage {
 		return webelement.isDisplayed();
 	}
 	
+	
+	/**
+	 * Closes the Application under test
+	 */
+	public void closeApplication() {
+		try {
+			appiumDriver.closeApp();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Launches the Application under test
+	 */
+	public void launchApplication() {
+        try {
+        	
+        	appiumDriver.launchApp();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * @param webelement
@@ -118,10 +163,10 @@ public class AppiumCommandsPage {
 	    return isElementPresent;
 	}
 	
+	
 	public Dimension getElementSize(WebElement webelement) {
 	
-	
-		Dimension elementSize = webelement.getSize();
+	     Dimension elementSize = webelement.getSize();
 		 return elementSize;
 	}
 	
@@ -139,6 +184,7 @@ public class AppiumCommandsPage {
 	 */
 	public boolean VerifyElementSelected(WebElement webelement) {
 		return webelement.isSelected();
+		
 	}
 	
 
@@ -149,7 +195,7 @@ public class AppiumCommandsPage {
 	public boolean checkKeyboardDisplayed() throws IOException {
 		boolean mInputShown = false;
 		try {
-			String cmd = "adb shell dumpsys input_method | grep mInputShown";
+			String cmd = getAdbPath()+" "+"adb shell dumpsys input_method | grep mInputShown";
 			Process p = Runtime.getRuntime().exec(cmd);
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(p.getInputStream()));
@@ -180,7 +226,7 @@ public class AppiumCommandsPage {
 	public void adbKeyEvents(int keyevent) {
 
 		try {
-			String cmd = "adb shell input keyevent" + " " + keyevent;
+			String cmd = getAdbPath()+" "+"adb shell input keyevent" + " " + keyevent;
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -271,7 +317,7 @@ public class AppiumCommandsPage {
 	public void LaunchAndroidApplication(String activity) {
 		String cmd;
 		try {
-			cmd = "adb shell am start -n" + " " + activity;
+			cmd = getAdbPath()+" "+"adb shell am start -n" + " " + activity;
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -286,7 +332,7 @@ public class AppiumCommandsPage {
 	public void KillAndroidApplication(String activity) {
 		String cmd;
 		try {
-			cmd = "adb shell am force-stop" + " " + activity;
+			cmd = getAdbPath()+" "+"adb shell am force-stop" + " " + activity;
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -434,9 +480,4 @@ public class AppiumCommandsPage {
 		}
 	}
 	
-	
-
-	
-	
-
 }
