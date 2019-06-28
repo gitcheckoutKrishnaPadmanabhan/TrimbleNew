@@ -35,13 +35,15 @@ public class AppiumCommandsPage {
 	public IOSDriver<WebElement> iOSDriver;
 
 	public WebDriverWait wait;
+	
+	private final int appiumDriverWait = 60;
 
 	/**
 	 * @param driver
 	 */
 	public AppiumCommandsPage(AppiumDriver<WebElement> driver) {
 		this.appiumDriver = driver;
-		wait = new WebDriverWait(driver, 60);
+		wait = new WebDriverWait(driver, appiumDriverWait);
 	}
 
 	/**

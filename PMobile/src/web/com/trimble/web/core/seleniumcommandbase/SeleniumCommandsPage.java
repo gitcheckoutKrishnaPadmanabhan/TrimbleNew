@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class SeleniumCommandsPage {
 
 	public WebDriver webdriver;
+	private final int webdriverWait = 60;
 
 	/**
 	 * @param url 
@@ -126,7 +127,7 @@ public class SeleniumCommandsPage {
 	public boolean waitForElementVisibility(WebElement webelement) {
 
 		try {
-			WebDriverWait wait = new WebDriverWait(webdriver, 60);
+			WebDriverWait wait = new WebDriverWait(webdriver, webdriverWait);
 			wait.until(ExpectedConditions.visibilityOf(webelement));
 			return true;
 		} catch (Exception e) {
@@ -136,6 +137,9 @@ public class SeleniumCommandsPage {
 
 	/**
 	 * @param webelement
+	 * This method is for in some situations the element will be inaccessible, 
+	 * so we are trying it several times before an exception is thrown. 
+	 * 
 	 */
 	public void waitLoop(WebElement webelement) {
 		for (int i = 0; i < 3; i++)
@@ -145,6 +149,9 @@ public class SeleniumCommandsPage {
 	/**
 	 * @param webelement
 	 * 			Highlight the webelement
+	 * This method is for highlighting the elements in the web page.
+	 * This method is called inside the VerifyElementPresent method
+	 * It will highlight the element for a particular time, that's why its done multiple times.
 	 */
 	public void HighlightMyElement(WebElement element) {
 		for (int i = 0; i < 2; i++) {
