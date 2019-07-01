@@ -1,12 +1,10 @@
 package com.trimble.mobile.pmobileapp.stepdefinitions;
 
 import org.testng.Assert;
-
 import com.trimble.mobile.core.testcontext.TestContext;
 import com.trimble.mobile.pmobileapp.pages.HomePage;
 import com.trimble.mobile.pmobileapp.pages.SettingsPage;
 import com.trimble.mobile.pmobileapp.pages.SystemPage;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -41,7 +39,7 @@ public class SettingsTest {
 
 	@When("^I set the Backlight Auto Dim to OFF$")
 	public void i_set_the_backlight_auto_dim_to_off() throws Throwable {
-		Assert.assertEquals(settingsPage.turnOffBackLight(), true);
+		Assert.assertEquals(settingsPage.turnOffBackLight(), false);
 	}
 
 	@Then("^I am not able to slide the Backlight seekbar$")
@@ -51,39 +49,43 @@ public class SettingsTest {
 
 	@When("^I set the Backlight Auto Dim to ON$")
 	public void i_set_the_backlight_auto_dim_to_on() throws Throwable {
-		Assert.assertEquals(settingsPage.turnOnBackLight(), false);
+		Assert.assertEquals(settingsPage.turnOnBackLight(), true);
 	}
 
 	@Then("^I am able to slide the Backlight seekbar$")
 	public void i_am_able_to_slide_the_backlight_seekbar() throws Throwable {
 		settingsPage.slideBacklight();
-
 	}
-
-	@When("^I set the backlight to 100 and navigate to previous screen and come back to settings screen$")
-	public void i_set_the_backlight_to_1000_and_navigate_to_previous_screen_and_come_back_to_settings_screen()
-			throws Throwable {
-		settingsPage.slideBacklight();
-		settingsPage.navigateBack();
-		systemPage.clickSettings();
-	}
-
+	
+	@When("^I set the backlight to 100$")
+    public void i_set_the_backlight_to_100() throws Throwable {
+	    settingsPage.slideBacklight();
+	    testContext.getScenarioContext().setContext("backLightBeforeRestart", settingsPage.getBounds("backlightSeekbar"));
+    }
+	
+	 @And("^I restart the pMobile application$")
+	 public void i_restart_the_pmobile_application() throws Throwable {
+		 settingsPage.restartApp();
+	 }
+	
 	@Then("^I see the backlight is set to same 100$")
 	public void i_see_the_backlight_is_set_to_same_100() throws Throwable {
 		settingsPage.clickSubSections("VolumeBacklight");
+		testContext.getScenarioContext().setContext("backLightAfterRestart", settingsPage.getBounds("backlightSeekbar"));
+		Assert.assertEquals(testContext.getScenarioContext().getContext("backLightBeforeRestart"), testContext.getScenarioContext().getContext("backLightAfterRestart"));
 	}
-
-	@When("^I set the volume to 100 and navigate to previous screen and come back to settings screen$")
-	public void i_set_the_volume_to_100_and_navigate_to_previous_screen_and_come_back_to_settings_screen()
-			throws Throwable {
+	
+	 @When("^I set the volume to 100$")
+	    public void i_set_the_volume_to_100() throws Throwable {
 		settingsPage.slideVolume();
-		settingsPage.navigateBack();
-		systemPage.clickSettings();
-	}
-
+		testContext.getScenarioContext().setContext("volumeBeforeRestart", settingsPage.getBounds("volumeSeekbar"));
+	   }	
+	
 	@Then("^I see the volume is set to same 100$")
 	public void i_see_the_volume_is_set_to_same_100() throws Throwable {
 		settingsPage.clickSubSections("VolumeBacklight");
+		testContext.getScenarioContext().setContext("volumeAfterRestart", settingsPage.getBounds("volumeSeekbar"));
+		Assert.assertEquals(testContext.getScenarioContext().getContext("volumeBeforeRestart"), testContext.getScenarioContext().getContext("volumeAfterRestart"));
 	}
 
 	@Given("^I tap the Units section$")
@@ -102,6 +104,7 @@ public class SettingsTest {
 		Assert.assertEquals(settingsPage.verifyUnitsRadioButtons("US"), "US");
 		Assert.assertEquals(settingsPage.verifyUnitsRadioButtons("Metric"), "Metric");
 		Assert.assertEquals(settingsPage.verifyUnitsRadioButtons("Imperial"), "Imperial");
+				
 	}
 
 	@Given("^I tap the Language section$")
@@ -113,7 +116,7 @@ public class SettingsTest {
 	@When("^I choose the language Espanol$")
 	public void i_choose_the_language_espanol() throws Throwable {
 		settingsPage.chooseLanguageRadioButtons("Español");
-
+		
 	}
 
 	@Then("^I see a Alert pop-up with the message Changing language requires restart with Yes and No buttons and i tap No from the pop-up$")
@@ -134,7 +137,12 @@ public class SettingsTest {
 		settingsPage.clickSubSections("fontSizeButton");
 		settingsPage.verifyFontSection();
 	}
-
+	
+	@And("^I verify the font are in normal size$")
+	public void i_verify_the_font_are_in_normal_size() throws Throwable {
+		testContext.getScenarioContext().setContext("normalFontSize", settingsPage.getFontSize());
+	}
+	  
 	@When("^I tap the normal radio button$")
 	public void i_tap_the_normal_radio_button() throws Throwable {
 		settingsPage.chooseFontRadioButtons("Normal");
@@ -150,9 +158,15 @@ public class SettingsTest {
 			throws Throwable {
 		settingsPage.tapAlertPopUp("YES");
 		settingsPage.waitForDashboardScreen();
-		homePage.clickSubSections("System");
-		systemPage.clickSettings();
-		Assert.assertEquals(settingsPage.SelectedRadioButton("Font Size"), "Large");
+		
+	}
+	
+	@And("^I verify the font size is larger$")
+    public void i_verify_the_font_size_is_larger() throws Throwable {
+		testContext.getScenarioContext().setContext("largeFontSize", settingsPage.getFontSize());
+		int x = (int) testContext.getScenarioContext().getContext("normalFontSize");
+		int y = (int) testContext.getScenarioContext().getContext("largeFontSize");
+		Assert.assertTrue(y > x);
 	}
 
 	@When("^I tap the large radio button$")
@@ -197,50 +211,44 @@ public class SettingsTest {
 		Assert.assertEquals(settingsPage.SelectedRadioButton("Sort Section"), "Date Descending");
 	}
 
-	@Given("^I tap the Time Zone  section$")
+	@Given("^I tap the Time Zone section$")
 	public void i_tap_the_time_zone_section() throws Throwable {
 		settingsPage.clickSubSections("Time Zone");
 	}
 
 	@When("^I change the a different time Zone from the android device system Settings$")
 	public void i_change_the_a_different_time_zone_from_the_android_device_system_settings() throws Throwable {
-		settingsPage.changeTimeZone("Fiji");
-		i_am_on_the_settings_screen();
+		testContext.getScenarioContext().setContext("deviceTime", settingsPage.changeTimeZone("Fiji"));
 	}
 
 	@Then("^I see the selected time zone displayed in the Pmobile application$")
 	public void i_see_the_selected_time_zone_displayed_in_the_pmobile_application() throws Throwable {
 		Assert.assertEquals(settingsPage.SelectedRadioButton("Time Zone"), "Pacific/Fiji");
 	}
-
+	
+	 @And("^I verify the time zone is refelcted on the top right screen$")
+	 public void i_verify_the_time_zone_is_refelcted_on_the_top_right_screen() throws Throwable {
+		 testContext.getScenarioContext().setContext("pMobileApplicationTime", settingsPage.getPmobileTime());
+	     Assert.assertEquals(testContext.getScenarioContext().getContext("deviceTime"), testContext.getScenarioContext().getContext("pMobileApplicationTime"));
+	 }
+	 
 	@Given("^I tap the Date Time section$")
 	public void i_tap_the_date_time_section() throws Throwable {
 		settingsPage.clickSubSections("Date/Time");
-
-	}
+    }
 
 	@When("^I verify the Date Time Selection$")
 	public void i_verify_the_date_time_selection() throws Throwable {
 		settingsPage.verifyDateTimeFormatSection();
 	}
-
-	@When("^I tap the 12 Hour radio button with the following combinations MMDDYY and DDMMYY and Off and verify the selected option displayed below the Date Time Format text$")
-	public void i_tap_the_12_hour_radio_button_with_the_following_combinations_mmddyy_and_ddmmyy_and_off_and_verify_the_selected_option_displayed_below_the_date_time_format_text()
-			throws Throwable {
-		Assert.assertEquals(settingsPage.verifyDateTimeFormatRadioButtons("12 Hour-MM/DD/YY"), "MM/DD/YY - 12 Hour");
-		Assert.assertEquals(settingsPage.verifyDateTimeFormatRadioButtons("12 Hour-DD/MM/YY"), "DD/MM/YY - 12 Hour");
-		Assert.assertEquals(settingsPage.verifyDateTimeFormatRadioButtons("12 Hour-off"), "Off - 12 Hour");
+		
+	 @When("^I select the following \"([^\"]*)\"$")
+	 public void i_select_the_following_something(String datetimeformat) throws Throwable {
+		 settingsPage.SelectDateTimeFormat(datetimeformat);
 	}
-
-	@And("^I tap the 24 Hour radio button with the following combinations MMDDYY and DDMMYY and Off and verify the selected option displayed below the Date Time Format text$")
-	public void i_tap_the_24_hour_radio_button_with_the_following_combinations_mmddyy_and_ddmmyy_and_off_and_verify_the_selected_option_displayed_below_the_date_time_format_text()
-			throws Throwable {
-		Assert.assertEquals(settingsPage.verifyDateTimeFormatRadioButtons("24 Hour-MM/DD/YY"), "MM/DD/YY - 24 Hour");
-		Assert.assertEquals(settingsPage.verifyDateTimeFormatRadioButtons("24 Hour-DD/MM/YY"), "DD/MM/YY - 24 Hour");
-		Assert.assertEquals(settingsPage.verifyDateTimeFormatRadioButtons("24 Hour-off"), "Off - 24 Hour");
-
-	}
-
-
-
+	 
+	 @Then("^I see the selected \"([^\"]*)\" displayed in the top right screen$")
+	 public void i_see_the_selected_something_displayed_in_the_top_right_screen(String datetimeformat) throws Throwable {
+		  Assert.assertEquals(settingsPage.DateTimeFormatMatcher(datetimeformat), true);
+	  }
 }

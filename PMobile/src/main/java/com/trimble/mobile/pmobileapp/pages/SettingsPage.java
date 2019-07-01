@@ -1,12 +1,16 @@
 package com.trimble.mobile.pmobileapp.pages;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.trimble.mobile.core.appiumcommandbase.AppiumCommandsPage;
-
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -14,8 +18,6 @@ import io.appium.java_client.touch.offset.PointOption;
 
 public class SettingsPage extends AppiumCommandsPage {
 	
-
-
 	@FindBy(id = "pnetpage_homebutton_imagebutton")
 	private WebElement peoplenetLogo;
 
@@ -157,6 +159,9 @@ public class SettingsPage extends AppiumCommandsPage {
 	@FindBy(xpath = "//*[@text='Automatic date and time']/../..//*[@class='android.widget.Switch']")
 	private WebElement automaticDateTimeSwitch;
 
+	@FindBy(xpath = "//*[@class='android.widget.TextView' and @index='2']")
+	private WebElement pMobileTime;
+	
 	@FindBy(xpath = "//*[@text='Select time zone' and @index='0']")
 	private WebElement selectTimeZone;
 
@@ -165,6 +170,9 @@ public class SettingsPage extends AppiumCommandsPage {
 
 	@FindBy(xpath = "//*[@text='__temp']")
 	private WebElement TimeZone;
+	
+	@FindBy(xpath = "//*[@class='android.widget.LinearLayout' and @index='3']//*[@class='android.widget.RelativeLayout' and @index='0']//*[@class='android.widget.TextView' and @index='1']")
+	private WebElement getDeviceTime;
 
 	public SettingsPage(AppiumDriver<WebElement> driver) {
 		super(driver);
@@ -204,6 +212,7 @@ public class SettingsPage extends AppiumCommandsPage {
 		case "Date/Time":
 			clickElement(dateTimeFormatButton);
 			break;
+	
 		}
 	}
 
@@ -245,9 +254,9 @@ public class SettingsPage extends AppiumCommandsPage {
 		if (getStatus.equalsIgnoreCase("OFF")) {
 			clickElement(backLightOnOffButton);
 		}
-		isEnabled = Boolean.parseBoolean(getElementPropertyToString("enabled", backlightSeekbar));
+		isEnabled = Boolean.parseBoolean(getElementPropertyToString("checked", backlightSeekbar));
 		return isEnabled;
-		// Should return false
+		// Should return true
 	}
 
 	public boolean turnOffBackLight() {
@@ -256,15 +265,36 @@ public class SettingsPage extends AppiumCommandsPage {
 		if (getStatus.equalsIgnoreCase("ON")) {
 			clickElement(backLightOnOffButton);
 		}
-		isEnabled = Boolean.parseBoolean(getElementPropertyToString("enabled", backlightSeekbar));
+		isEnabled = Boolean.parseBoolean(getElementPropertyToString("checked", backlightSeekbar));
 		return isEnabled;
-		// Should return True
+		// Should return false
 	}
 
 	public void navigateBack() {
 		clickElement(backArrow);
 	}
 
+	public void restartApp() {
+		
+		KillAndroidApplication("com.domain.pmobile.mainactivity_ip");
+		launchApplication();
+	}
+	
+	public Point getBounds(String seekbar) {
+	
+		int x = 0,y=0;
+		if(seekbar.equalsIgnoreCase("backlightSeekbar")) {
+			x =	backlightSeekbar.getLocation().getX();
+			y = backlightSeekbar.getLocation().getY();
+		} else if (seekbar.equalsIgnoreCase("volumeSeekbar")) {
+			x =	volumeSeekbar.getLocation().getX();
+			y = volumeSeekbar.getLocation().getY();
+		}
+	
+	return new Point(x, y);
+	
+	}
+	
 	public void verifyUnitsSection() {
 		VerifyElementPresent(unitsText);
 		VerifyElementPresent(usRadioButton);
@@ -343,6 +373,12 @@ public class SettingsPage extends AppiumCommandsPage {
 		VerifyElementPresent(restartText);
 	}
 
+	public int getFontSize() {
+		Dimension dim  = settingsText.getSize();
+	    return dim.getWidth();
+	}
+	
+	
 	public boolean verifyAlertPopNotDisplayed() {
 		boolean alertPopisDisplayed = verifyElementNotPresent(alertMessage);
 		return alertPopisDisplayed;
@@ -382,7 +418,7 @@ public class SettingsPage extends AppiumCommandsPage {
 		}
 	}
 
-	public void changeTimeZone(String timeZone) {
+	public String changeTimeZone(String timeZone) {
 
 		String status = getElementPropertyToString("text", automaticDateTimeSwitch);
 		if (status.equalsIgnoreCase("ON")) {
@@ -394,7 +430,6 @@ public class SettingsPage extends AppiumCommandsPage {
 		xpath = xpath.replaceAll("__temp", timeZone);
 		String[] test = xpath.split(": ");
 		xpath = test[1];
-
 		boolean found = false;
 		while (!found) {
 			try {
@@ -402,13 +437,24 @@ public class SettingsPage extends AppiumCommandsPage {
 				found = true;
 			} catch (org.openqa.selenium.NoSuchElementException e) {
 				Swipe("UP", 1);
-
-			}
+             }
 		}
         appiumDriver.findElement(By.xpath(xpath)).click();
+        String time = getElementPropertyToString("text", getDeviceTime);
         Back(1);
+        String[] splitTime = time.split(":");
+        time = splitTime[0];
+        return time;
 	}
 
+	public String getPmobileTime() {
+		  waitForElementVisibility(pMobileTime);
+		  String time = getElementPropertyToString("text", pMobileTime);
+		  String[] splitTime = time.split(":");
+	      time = splitTime[0];
+	      return time;
+	}
+	
 	public void verifyDateTimeFormatSection() {
 
 		VerifyElementPresent(timeFormatText);
@@ -420,52 +466,128 @@ public class SettingsPage extends AppiumCommandsPage {
 		VerifyElementPresent(offRadioButton);
 	}
 
-	public String verifyDateTimeFormatRadioButtons(String timeFormat) {
+	
+	
+	
+	public void SelectDateTimeFormat(String dateTimeFormat) {
+		
+		switch (dateTimeFormat) {
+          case "12 Hour-MM/DD/YY":
+			clickElement(tweleveHourRadioButton);
+			clickElement(MMDDYYFormatRadioButton);
+			break;
+			
+          case "12 Hour-DD/MM/YY":
+  			clickElement(tweleveHourRadioButton);
+  			clickElement(DDMMYYFormatRadioButton);
+  			break;
+
+  		case "12 Hour-Off":
+  			clickElement(tweleveHourRadioButton);
+  			clickElement(offRadioButton);
+  			break;
+
+  		case "24 Hour-MM/DD/YY":
+  			clickElement(twentyFourHourRadioButton);
+  			clickElement(MMDDYYFormatRadioButton);
+  			break;
+
+  		case "24 Hour-DD/MM/YY":
+  			clickElement(twentyFourHourRadioButton);
+  			clickElement(DDMMYYFormatRadioButton);
+  			break;
+
+  		case "24 Hour-Off":
+  			clickElement(twentyFourHourRadioButton);
+  			clickElement(offRadioButton);
+  			break;
+	   }
+	}
+	
+	public boolean DateTimeFormatMatcher(String dateTimeFormat) {
 
 		String temp = "";
-
-		switch (timeFormat) {
-
-		case "12 Hour-MM/DD/YY":
-			clickElement(tweleveHourRadioButton);
-			clickElement(MMDDYYFormatRadioButton);
-			temp = getElementPropertyToString("text", selectedDateTime);
-			break;
-
-		case "12 Hour-DD/MM/YY":
-			clickElement(tweleveHourRadioButton);
-			clickElement(DDMMYYFormatRadioButton);
-			temp = getElementPropertyToString("text", selectedDateTime);
-			break;
-
-		case "12 Hour-off":
-			clickElement(tweleveHourRadioButton);
-			clickElement(offRadioButton);
-			temp = getElementPropertyToString("text", selectedDateTime);
-			break;
-
-		case "24 Hour-MM/DD/YY":
-			clickElement(twentyFourHourRadioButton);
-			clickElement(MMDDYYFormatRadioButton);
-			temp = getElementPropertyToString("text", selectedDateTime);
-			break;
-
-		case "24 Hour-DD/MM/YY":
-			clickElement(twentyFourHourRadioButton);
-			clickElement(DDMMYYFormatRadioButton);
-			temp = getElementPropertyToString("text", selectedDateTime);
-			break;
-
-		case "24 Hour-off":
-			clickElement(twentyFourHourRadioButton);
-			clickElement(offRadioButton);
-			temp = getElementPropertyToString("text", selectedDateTime);
-			break;
-
+		boolean stringMatch  = false;
+		Pattern pattern ;
+		 Matcher matcher;
+		 String regex;
+		  switch (dateTimeFormat) {
+	    	 
+          case "12 Hour-MM/DD/YY":
+		  temp = getElementPropertyToString("text", pMobileTime);
+		
+		  temp = temp.trim();
+		  
+		  regex = "^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}\\s((1[0-2]|0?[1-9]):([0-5][0-9])\\s([AaPp][Mm]))$";
+		  pattern = Pattern.compile(regex);
+		  matcher = pattern.matcher(temp);
+		  if(matcher.find()) {
+			 stringMatch = true;
+			  } 
+		  break;
+		  
+		  
+          case "12 Hour-DD/MM/YY":
+    		  temp = getElementPropertyToString("text", pMobileTime);
+    		  temp = temp.trim();
+    		  regex = "^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}\\s((1[0-2]|0?[1-9]):([0-5][0-9])\\s([AaPp][Mm]))$";
+    		  pattern = Pattern.compile(regex);
+    		  matcher = pattern.matcher(temp);
+    		  if(matcher.find()) {
+    			 stringMatch = true;
+    			  } 
+    		  break;
+    		  
+    		  
+          case "12 Hour-Off":
+    		  temp = getElementPropertyToString("text", pMobileTime);
+    		  temp = temp.trim();
+    		  regex = "^((1[0-2]|0?[1-9]):([0-5][0-9]) ?([AaPp][Mm]))$";
+    		  pattern = Pattern.compile(regex);
+    		  matcher = pattern.matcher(temp);
+    		  if(matcher.find()) {
+    			 stringMatch = true;
+    			  } 
+    		  break;
+    		  
+    		  
+          case "24 Hour-MM/DD/YY":
+    		  temp = getElementPropertyToString("text", pMobileTime);
+    		  temp = temp.trim();
+    		  regex = "^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}\\s(([01]?[0-9]|2[0-3]):([0-5][0-9]))$";
+    		  pattern = Pattern.compile(regex);
+    		  matcher = pattern.matcher(temp);
+    		  if(matcher.find()) {
+    			 stringMatch = true;
+    			  } 
+    		  break;
+    		  
+    		  
+          case "24 Hour-DD/MM/YY":
+    		  temp = getElementPropertyToString("text", pMobileTime);
+    		  temp = temp.trim();
+    		  regex = "^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}\\s(([01]?[0-9]|2[0-3]):([0-5][0-9]))$";
+    		  pattern = Pattern.compile(regex);
+    		  matcher = pattern.matcher(temp);
+    		  if(matcher.find()) {
+    			 stringMatch = true;
+    			  } 
+    		  break;
+    		  
+    		  
+          case "24 Hour-Off":
+    		  temp = getElementPropertyToString("text", pMobileTime);
+    		  temp = temp.trim();
+    		  regex = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
+    		  pattern = Pattern.compile(regex);
+    		  matcher = pattern.matcher(temp);
+    		  if(matcher.find()) {
+    			 stringMatch = true;
+    			  } 
+    		  break;
+		  
 		}
-		return temp;
+	return stringMatch;
+	 
 	}
-
-
-
 }
