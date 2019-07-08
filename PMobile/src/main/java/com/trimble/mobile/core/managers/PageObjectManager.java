@@ -23,6 +23,8 @@ public class PageObjectManager {
 	private ApplicationToolBar applicationToolBar;
 	private DriverPage driverPage;
 	private LogoutPage logoutPage;
+	private SystemPage systemPage;
+	private MediaManagerPage mediaManagerPage;
 	
 	/**
 	 * @param driver
@@ -51,6 +53,14 @@ public class PageObjectManager {
 
 	public LogoutPage getLogoutPage() {
 		return (logoutPage == null) ? logoutPage = new LogoutPage(driver) : logoutPage;
+	}
+	
+	public MediaManagerPage getMediaManagerPage() {
+		return (mediaManagerPage == null) ? mediaManagerPage = new MediaManagerPage(driver) : mediaManagerPage;
+	}
+
+	public SystemPage getSystemPage() {
+		return (systemPage == null) ? systemPage = new SystemPage(driver) : systemPage;
 	}
 
 }

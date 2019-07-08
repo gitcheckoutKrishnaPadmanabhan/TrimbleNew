@@ -42,4 +42,13 @@ public class DriverPageTest {
 		toolBar.waitTillPageTitleDisplayed("Logout");
 		logoutPage.selectYesButton();
 	}
+	
+	@Given("Driver log out of the application")
+	public void driver_log_out_of_the_application() {
+		homePage.selectModule("Driver");
+		toolBar.waitTillPageTitleDisplayed("Driver");
+		driverPage.selectModule("Logout");
+		toolBar.waitTillPageTitleDisplayed("Logout");
+		logoutPage.selectYesButton();
+	}
 }
