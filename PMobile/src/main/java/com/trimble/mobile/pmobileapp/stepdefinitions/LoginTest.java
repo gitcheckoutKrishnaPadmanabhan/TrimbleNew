@@ -23,9 +23,7 @@ public class LoginTest {
 
 	@Given("Driver login to the application")
 	public void driver_login_to_the_application() {
-		if(!toolBar.getPageTitle().equalsIgnoreCase("Login")) {
-			
-		}else {
+		if(toolBar.getPageTitle().equalsIgnoreCase("Login")) {
 			loginPage.waitTillLoginPageLoaded();
 			loginPage.login("anitha", "anitha");
 			loginPage.waitTillDriverLogSheetLoaded();
