@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.trimble.mobile.core.appiumcommandbase.AppiumCommandsPage;
+import com.trimble.mobile.core.enums.*;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -96,9 +97,10 @@ public class MediaManagerPage extends AppiumCommandsPage {
 		return verifyElementDisplayed(folderSelectPopUpTitle);
 	}
 	
-	public void selectFolderPath(String menu) {
+	@SuppressWarnings("incomplete-switch")
+	public void selectFolderPath(Fields menu) {
 		switch (menu) {
-			case "Download":
+			case Download:
 				waitForElementVisibility(downloadOption);
 				if(verifyElementDisplayed(downloadOption)==true) {
 					clickElement(downloadOption);
@@ -109,7 +111,7 @@ public class MediaManagerPage extends AppiumCommandsPage {
 					clickElement(okBtn);
 				}
 				break;
-			case "Pictures":
+			case Pictures:
 				waitForElementVisibility(picturesOption);
 				if(verifyElementDisplayed(picturesOption)==true) {
 					clickElement(picturesOption);
@@ -133,14 +135,17 @@ public class MediaManagerPage extends AppiumCommandsPage {
 		VerifyElementPresent(picturesOption);
 	}
 	
-	public String isMenuSelected(String option) {
+	
+	public String isMenuSelected(Fields option) {
 		String val = null;
 		switch(option) {
-			case "Download":
+			case Download:
 				val = getElementPropertyToString("checked",downloadOption);
 				break;
-			case "Pictures":
+			case Pictures:
 				val = getElementPropertyToString("checked",picturesOption);
+				break;
+			default :
 				break;
 		}
 		return val;
@@ -199,15 +204,17 @@ public class MediaManagerPage extends AppiumCommandsPage {
 		waitForElementVisibility(folderSelectPopUpTitle);
 	}
 	
-	public void selectMenuFromDeleteAlert(String menu) {
+	public void selectMenuFromDeleteAlert(Fields menu) {
 		switch(menu) {
-			case "Yes":
+			case Yes:
 				clickElement(yesMenu);
 				waitForElementInVisibility(folderSelectPopUpTitle);
 				break;
-			case "Cancel":
+			case Cancel:
 				clickElement(cancelMenu);
 				waitForElementInVisibility(folderSelectPopUpTitle);
+				break;
+			default :
 				break;
 		}						
 	}
@@ -228,7 +235,6 @@ public class MediaManagerPage extends AppiumCommandsPage {
 		Boolean checkBox = false;
 		int i=0;
 		int count = getListCount();
-		System.out.print(getListCount());
 		while(i<count) {
 			if(getElementPropertyToString("checked",listViewCheckBox.get(i)).equalsIgnoreCase("false")) {
 				checkBox = false;
@@ -250,30 +256,30 @@ public class MediaManagerPage extends AppiumCommandsPage {
 		waitForElementVisibility(imageView);
 	}
 	
-	public void clicklistColumn(String menu) {
+	public void clicklistColumn(Fields menu) {
 		switch(menu) {
-			case "Name":
+			case Name:
 				clickElement(nameColumn);
 				break;
-			case "Size":
+			case Size:
 				clickElement(sizeColumn);
 				break;
-			case "Date":
+			case Date:
 				clickElement(dateColumn);
 				break;
 		}
 	}
 	
-	public String verifyListHeaderUI(String menu) {
+	public String verifyListHeaderUI(Fields menu) {
 		String property=null;
 		switch(menu) {
-			case "Name":
+			case Name:
 				property= getElementPropertyToString("text",nameColumn);
 				break;
-			case "Size":
+			case Size:
 				property= getElementPropertyToString("text",sizeColumn);
 				break;
-			case "Date":
+			case Date:
 				property= getElementPropertyToString("text",dateColumn);
 				break;
 		}
@@ -281,21 +287,21 @@ public class MediaManagerPage extends AppiumCommandsPage {
 
 	}
 	
-	public Boolean isMediaListSorted(String menu,String order) {
+	public Boolean isMediaListSorted(Fields menu,SortingType order) {
 		int count = getListCount();
 		ArrayList<String> list=new ArrayList<String>(); 
 		switch(menu) {
-			case "Name":
+			case Name:
 				for(int i = 0;i<count;i++) {
 					list.add(nameList.get(i).getText());
 				}
 				break;
-			case "Size":
+			case Size:
 				for(int i = 0;i<count;i++) {
 					list.add(sizeList.get(i).getText());
 				}
 				break;
-			case "Date":
+			case Date:
 				for(int i = 0;i<count;i++) {
 					list.add(dateList.get(i).getText());
 				}
@@ -304,15 +310,15 @@ public class MediaManagerPage extends AppiumCommandsPage {
 		return checkListIsSorted(list,order);
 	}
 	
-	public void sortMenu(String menu) {
+	public void sortMenu(Fields menu) {
 		switch(menu) {
-			case "Name":
+			case Name:
 				clickElement(nameColumn);
 				break;
-			case "Size":
+			case Size:
 				clickElement(sizeColumn);
 				break;
-			case "Date":
+			case Date:
 				clickElement(dateColumn);
 				break;
 		}

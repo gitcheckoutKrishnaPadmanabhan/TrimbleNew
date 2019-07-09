@@ -3,6 +3,7 @@ package com.trimble.mobile.pmobileapp.stepdefinitions;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
+import com.trimble.mobile.core.enums.*;
 import com.trimble.mobile.core.testcontext.TestContext;
 import com.trimble.mobile.pmobileapp.pages.*;
 
@@ -46,14 +47,14 @@ public class MediaManagerTest {
 		toolBar.waitTillPageTitleDisplayed("Home");
 		homePage.selectModule("System");
 		toolBar.waitTillPageTitleDisplayed("System");
-		systemPage.clickSubSection("Camera");
+		systemPage.clickSubSection(Fields.Camera);
 		systemPage.takeSinglePicture();
 		toolBar.waitTillPageTitleDisplayed("Home");
 	}
 
 	@When("Driver views Pnet Picture section in Media Manager Page")
 	public void driver_views_Pnet_Picture_section_in_Media_Manager_Page() {
-		mediaManager.selectFolderPath("Pictures");
+		mediaManager.selectFolderPath(Fields.Pictures);
 		toolBar.waitTillPageTitleDisplayed("Media Manager - Pictures");
 		mediaManager.validateMediaManagerScreenAttribute();
 		testContext.getScenarioContext().setContext("Count", mediaManager.getListCount());
@@ -70,7 +71,7 @@ public class MediaManagerTest {
 	
 	@Given("Driver views download section in Media Manager Page")
 	public void driver_views_download_section_in_Media_Manager_Page() {
-		mediaManager.selectFolderPath("Download");
+		mediaManager.selectFolderPath(Fields.Pictures);
 		toolBar.waitTillPageTitleDisplayed("Media Manager - Downloads");
 		mediaManager.validateMediaManagerScreenAttribute();
 	}
@@ -96,7 +97,7 @@ public class MediaManagerTest {
 		homePage.selectModule("Driver");
 		toolBar.waitTillPageTitleDisplayed("Driver");
 		driverPage.selectModule("Media Manager");
-		mediaManager.selectFolderPath("Pictures");
+		mediaManager.selectFolderPath(Fields.Pictures);
 	}
 
 	@Then("Driver will be prompted to select the folder path")
@@ -104,10 +105,10 @@ public class MediaManagerTest {
 		mediaManager.waitForFolderAlertTitle();
 		mediaManager.verifySelectFolderPathPopUpUI();
 		SoftAssert softAssertion= new SoftAssert();
-		softAssertion.assertEquals(mediaManager.isMenuSelected("Download"), "true");
-		softAssertion.assertEquals(mediaManager.isMenuSelected("Pictures"), "false");
+		softAssertion.assertEquals(mediaManager.isMenuSelected(Fields.Download), "true");
+		softAssertion.assertEquals(mediaManager.isMenuSelected(Fields.Pictures), "false");
 		softAssertion.assertAll();
-		mediaManager.selectFolderPath("Download");
+		mediaManager.selectFolderPath(Fields.Download);
 	}
 	
 	@When("Driver navigate to some other page and return back to Media Manager page")
@@ -120,7 +121,7 @@ public class MediaManagerTest {
 	@When("Driver change folder selection to Downloads")
 	public void driver_change_folder_selection_to_Downloads() {
 		mediaManager.selectChangeFolder();
-		mediaManager.selectFolderPath("Download");
+		mediaManager.selectFolderPath(Fields.Download);
 	}
 
 	@Then("Driver has access to Download section in Media Manager")
@@ -132,7 +133,7 @@ public class MediaManagerTest {
 	@When("Driver change folder selection to Pictures")
 	public void driver_change_folder_selection_to_Pictures() {
 		mediaManager.selectChangeFolder();
-		mediaManager.selectFolderPath("Pictures");
+		mediaManager.selectFolderPath(Fields.Pictures);
 	}
 
 	@Then("Driver has access to Pictures section in Media Manager")
@@ -143,20 +144,20 @@ public class MediaManagerTest {
 	
 	@Given("There are existing pictures in the Pnet Picture folder section")
 	public void there_are_existing_pictures_in_the_Pnet_Picture_folder_section() throws InterruptedException {
-		mediaManager.selectFolderPath("Pictures");
+		mediaManager.selectFolderPath(Fields.Pictures);
 		if(mediaManager.getListCount()>2) {
 			testContext.getScenarioContext().setContext("listCount", mediaManager.getListCount());
 		}else {
 			toolBar.Back(2);
 			toolBar.waitTillPageTitleDisplayed("Home");
 			homePage.selectModule("System");
-			systemPage.clickSubSection("Camera");
+			systemPage.clickSubSection(Fields.Camera);
 			systemPage.takeMultiplePicture();
 			toolBar.waitTillPageTitleDisplayed("Home");
 			homePage.selectModule("Driver");
 			toolBar.waitTillPageTitleDisplayed("Driver");
 			driverPage.selectModule("Media Manager");
-			mediaManager.selectFolderPath("Pictures");
+			mediaManager.selectFolderPath(Fields.Pictures);
 			testContext.getScenarioContext().setContext("listCount", mediaManager.getListCount());
 		}
 	}
@@ -165,7 +166,7 @@ public class MediaManagerTest {
 	public void driver_tries_to_delete_single_media_from_Pnet_Picture_folder() {
 		mediaManager.selectSingleImage();
 		mediaManager.clickDelete();
-		mediaManager.selectMenuFromDeleteAlert("Yes");
+		mediaManager.selectMenuFromDeleteAlert(Fields.Yes);
 		
 	}
 
@@ -185,14 +186,14 @@ public class MediaManagerTest {
 	@Then("Delete confirmation GUF will be shown to the driver")
 	public void delete_confirmation_GUF_will_be_shown_to_the_driver() {
 		mediaManager.validateDeleteAlertUI();
-		mediaManager.selectMenuFromDeleteAlert("Cancel");
+		mediaManager.selectMenuFromDeleteAlert(Fields.Cancel);
 	}
 	
 	@When("Driver tries to delete multiple files")
 	public void driver_tries_to_delete_multiple_files() {
 		mediaManager.selectMultipleImage();
 		mediaManager.clickDelete();
-		mediaManager.selectMenuFromDeleteAlert("Yes");
+		mediaManager.selectMenuFromDeleteAlert(Fields.Yes);
 	}
 
 	@Then("Selected multiple media got deleted successfully")
@@ -228,7 +229,7 @@ public class MediaManagerTest {
 		mediaManager.selectSingleImage();
 		mediaManager.clickCheckAllCheckBox();
 		mediaManager.clickDelete();
-		mediaManager.selectMenuFromDeleteAlert("Yes");
+		mediaManager.selectMenuFromDeleteAlert(Fields.Yes);
 	}
 
 	@Then("All files should get deleted successfully")
@@ -240,7 +241,7 @@ public class MediaManagerTest {
 	public void driver_hits_delete_button_after_deselecting_all_files() {
 		mediaManager.deselectMultipleImage();
 		mediaManager.clickDelete();
-		mediaManager.selectMenuFromDeleteAlert("Yes");
+		mediaManager.selectMenuFromDeleteAlert(Fields.Yes);
 		
 	}
 
@@ -296,8 +297,8 @@ public class MediaManagerTest {
 
 	@Then("All media should be sorted by Name in ascending order")
 	public void all_media_should_be_sorted_by_Name_in_ascending_order() {
-		Assert.assertTrue(mediaManager.isMediaListSorted("Name","ascending"));
-		Assert.assertEquals(mediaManager.verifyListHeaderUI("Name"), "Name ▲");
+		Assert.assertTrue(mediaManager.isMediaListSorted(Fields.Name,SortingType.ascending));
+		Assert.assertEquals(mediaManager.verifyListHeaderUI(Fields.Name), "Name ▲");
 	}
 	
 	@When("Driver sort Picture view using Name field in descending order")
@@ -306,13 +307,13 @@ public class MediaManagerTest {
 		toolBar.waitTillPageTitleDisplayed("Driver");
 		driverPage.selectModule("Media Manager");
 		toolBar.waitForPageTitle();
-		mediaManager.sortMenu("Name");
+		mediaManager.sortMenu(Fields.Name);
 	}
 
 	@Then("All media should be sorted by Name in descending order")
 	public void all_media_should_be_sorted_by_Name_in_descending_order() {
-		Assert.assertTrue(mediaManager.isMediaListSorted("Name","descending"));
-		Assert.assertEquals(mediaManager.verifyListHeaderUI("Name"), "Name ▼");
+		Assert.assertTrue(mediaManager.isMediaListSorted(Fields.Name,SortingType.descending));
+		Assert.assertEquals(mediaManager.verifyListHeaderUI(Fields.Name), "Name ▼");
 	}
 	
 	@When("Driver sort Picture view using Size field in ascending order")
@@ -321,13 +322,13 @@ public class MediaManagerTest {
 		toolBar.waitTillPageTitleDisplayed("Driver");
 		driverPage.selectModule("Media Manager");
 		toolBar.waitForPageTitle();
-		mediaManager.sortMenu("Size");
+		mediaManager.sortMenu(Fields.Size);
 	}
 
 	@Then("All media should be sorted by Size in ascending order")
 	public void all_media_should_be_sorted_by_Size_in_ascending_order() {
-		Assert.assertTrue(mediaManager.isMediaListSorted("Size","ascending"));
-		Assert.assertEquals(mediaManager.verifyListHeaderUI("Size"), "Size ▲");
+		Assert.assertTrue(mediaManager.isMediaListSorted(Fields.Size,SortingType.ascending));
+		Assert.assertEquals(mediaManager.verifyListHeaderUI(Fields.Size), "Size ▲");
 	}
 
 	@When("Driver sort Picture view using Size field in descending order")
@@ -336,14 +337,14 @@ public class MediaManagerTest {
 		toolBar.waitTillPageTitleDisplayed("Driver");
 		driverPage.selectModule("Media Manager");
 		toolBar.waitForPageTitle();
-		mediaManager.sortMenu("Size");
-		mediaManager.sortMenu("Size");
+		mediaManager.sortMenu(Fields.Size);
+		mediaManager.sortMenu(Fields.Size);
 	}
 
 	@Then("All media should be sorted by Size in descending order")
 	public void all_media_should_be_sorted_by_Size_in_descending_order() {
-		Assert.assertTrue(mediaManager.isMediaListSorted("Size","descending"));
-		Assert.assertEquals(mediaManager.verifyListHeaderUI("Size"), "Size ▼");
+		Assert.assertTrue(mediaManager.isMediaListSorted(Fields.Size,SortingType.descending));
+		Assert.assertEquals(mediaManager.verifyListHeaderUI(Fields.Size), "Size ▼");
 	}
 	
 	@When("Driver sort Picture view using Date field in ascending order")
@@ -352,13 +353,13 @@ public class MediaManagerTest {
 		toolBar.waitTillPageTitleDisplayed("Driver");
 		driverPage.selectModule("Media Manager");
 		toolBar.waitForPageTitle();
-		mediaManager.sortMenu("Date");
+		mediaManager.sortMenu(Fields.Date);
 	}
 
 	@Then("All media should be sorted by Date in ascending order")
 	public void all_media_should_be_sorted_by_Date_in_ascending_order() {
-		Assert.assertTrue(mediaManager.isMediaListSorted("Date","ascending"));
-		Assert.assertEquals(mediaManager.verifyListHeaderUI("Date"), "Date ▲");
+		Assert.assertTrue(mediaManager.isMediaListSorted(Fields.Date,SortingType.ascending));
+		Assert.assertEquals(mediaManager.verifyListHeaderUI(Fields.Date), "Date ▲");
 	}
 
 	@When("Driver sort Picture view using Date field in descending order")
@@ -367,20 +368,20 @@ public class MediaManagerTest {
 		toolBar.waitTillPageTitleDisplayed("Driver");
 		driverPage.selectModule("Media Manager");
 		toolBar.waitForPageTitle();
-		mediaManager.sortMenu("Date");
-		mediaManager.sortMenu("Date");
+		mediaManager.sortMenu(Fields.Date);
+		mediaManager.sortMenu(Fields.Date);
 	}
 
 	@Then("All media should be sorted by Date in descending order")
 	public void all_media_should_be_sorted_by_Date_in_descending_order() {
-		Assert.assertTrue(mediaManager.isMediaListSorted("Date","descending"));
-		Assert.assertEquals(mediaManager.verifyListHeaderUI("Date"), "Date ▼");
+		Assert.assertTrue(mediaManager.isMediaListSorted(Fields.Date,SortingType.descending));
+		Assert.assertEquals(mediaManager.verifyListHeaderUI(Fields.Date), "Date ▼");
 	}
 	
 	@When("Driver cancel delete operation by clicking cancel in the pop up")
 	public void driver_cancel_delete_operation_by_clicking_cancel_in_the_pop_up() {
 		mediaManager.waitForFolderAlertTitle();
-		mediaManager.selectMenuFromDeleteAlert("Cancel");
+		mediaManager.selectMenuFromDeleteAlert(Fields.Cancel);
 	}
 	
 	@Then("Driver has access to Pnet Picture section in Media Manager Page")

@@ -20,6 +20,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.collect.Ordering;
+import com.trimble.mobile.core.enums.SortingType;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
@@ -232,21 +233,21 @@ public class AppiumCommandsPage {
 	 * @return true if the list is sorted
 	 * @return false if the list is not sorted
 	 */
-	public boolean checkListIsSorted(List<String> ListToSort,String order) {
+	public boolean checkListIsSorted(List<String> ListToSort,SortingType order) {
 
 		boolean isSorted = false;
 
 		if (ListToSort.size() > 0) {
 			try {
 				switch(order) {
-					case "ascending":
+					case ascending:
 						if (Ordering.natural().isOrdered(ListToSort)) {
 							isSorted = true;
 						}else {
 							isSorted = false;
 						}
 						break;
-					case "descending":
+					case descending:
 						if(Ordering.natural().reverse().isOrdered(ListToSort)) {
 							isSorted = true;
 						}

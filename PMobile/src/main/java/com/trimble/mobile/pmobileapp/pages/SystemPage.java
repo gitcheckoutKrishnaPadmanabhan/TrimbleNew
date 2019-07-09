@@ -4,6 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import com.trimble.mobile.core.appiumcommandbase.AppiumCommandsPage;
+import com.trimble.mobile.core.enums.Fields;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
@@ -39,6 +41,7 @@ public class SystemPage extends AppiumCommandsPage{
     @FindBy(xpath="//*[@text='Shutter']")
 	private WebElement shutterButton;
     
+    private final int sleepTime = 500;
     public SystemPage(AppiumDriver<WebElement> driver) {
         super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
@@ -48,41 +51,41 @@ public class SystemPage extends AppiumCommandsPage{
         clickElement(settingsButton);
     }
     
-    public void clickSubSection(String Menu) {
+    public void clickSubSection(Fields Menu) {
     	switch(Menu) {
-    		case "Settings":
+    		case Settings:
     			waitForElementVisibility(settingsButton);
     			clickElement(settingsButton);
     			break;
-    		case "OBC Dignostic":
+    		case OBCDignostic:
     			waitForElementVisibility(obcDiagnosticButton);
     			clickElement(obcDiagnosticButton);
     			break;
-    		case "Information":
+    		case Information:
     			waitForElementVisibility(informationButton);
     			clickElement(informationButton);
     			break;
-    		case "OTAP":
+    		case OTAP:
     			waitForElementVisibility(otapButton);
     			clickElement(otapButton);
     			break;
-    		case "Version":
+    		case Version:
     			waitForElementVisibility(versionButton);
     			clickElement(versionButton);
     			break;
-    		case "Licence Plate":
+    		case LicencePlate:
     			waitForElementVisibility(licensePlateButton);
     			clickElement(licensePlateButton);
     			break;
-    		case "WifiSetup":
+    		case WifiSetup:
     			waitForElementVisibility(wifiSetupButton);
     			clickElement(wifiSetupButton);
     			break;
-    		case "Camera":
+    		case Camera:
     			waitForElementVisibility(cameraButton);
     			clickElement(cameraButton);
     			break;
-    		case "Fleet Home Setup":
+    		case FleetHomeSetup:
     			waitForElementVisibility(fleetHomeSetupButton);
     			clickElement(fleetHomeSetupButton);
     			break;
@@ -92,7 +95,7 @@ public class SystemPage extends AppiumCommandsPage{
 	public void takeSinglePicture() throws InterruptedException {
 		waitForElementVisibility(shutterButton);
 		clickElement(shutterButton);
-		Thread.sleep(500);
+		Thread.sleep(sleepTime); 
 		Back(1);
 	}
 	
@@ -101,7 +104,7 @@ public class SystemPage extends AppiumCommandsPage{
 		clickElement(shutterButton);
 		clickElement(shutterButton);
 		clickElement(shutterButton);
-		Thread.sleep(500);
+		Thread.sleep(sleepTime); 
 		Back(1);
 		waitForElementInVisibility(shutterButton);
 	}
