@@ -68,7 +68,6 @@ public class AppiumCommandsPage {
 			e.printStackTrace();
 		}
 	}
-	
 
 	/**
 	 * @param Webelement
@@ -90,7 +89,7 @@ public class AppiumCommandsPage {
 		try {
 			webelement.click();
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
@@ -99,7 +98,12 @@ public class AppiumCommandsPage {
 	 * @return true or false
 	 */
 	public boolean VerifyElementPresent(WebElement webelement) {
-		return webelement.isDisplayed();
+		try {
+			return webelement.isDisplayed();
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	/**
@@ -285,7 +289,9 @@ public class AppiumCommandsPage {
 	 *            the text
 	 */
 	public void enterText(WebElement webelement, String text) {
+		clickElement(webelement);
 		webelement.sendKeys(text);
+		hideKeyboard();
 	}
 	
 	/**
@@ -298,12 +304,25 @@ public class AppiumCommandsPage {
 	/**
 	 * @param byLocator
 	 * @returns the list count of the elements
+	 * we need to get the count of Web element (XPath) =  “//*[@text='API Demos']* “ 
+After converting it as a string, value stored in the String xPath = “Located by By.xpath: //*[@text='API Demos’]”
+So, we are splitting the in put by “:”. so we get two outputs,
+1. Located by By.xpath 
+2. //*[@text='API Demos']
+
+So the second part is the one which we need to parse to get the count. So, always 1 will be constant which retrieves count in the list
 	 */
 	public int getCount(WebElement webelement) {
 
 		int count = 0;
 		try {
-			count = appiumDriver.findElements((By) webelement).size();
+			
+			String xpath = webelement.toString();
+		    String[] test = xpath.split(": ");
+		        xpath = test[1];
+		        count = appiumDriver.findElements(By.xpath(xpath)).size();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -410,5 +429,8 @@ public class AppiumCommandsPage {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void reLaunchApp() {
+		appiumDriver.launchApp();
+	}
 }

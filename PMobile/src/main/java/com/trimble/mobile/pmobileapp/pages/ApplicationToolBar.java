@@ -24,13 +24,47 @@ public class ApplicationToolBar extends AppiumCommandsPage {
 	}
 	
 	public void waitTillPageTitleDisplayed(String pageName) {
+		waitForElementVisibility(titleText);
 		while (getElementPropertyToString("text",titleText).equalsIgnoreCase(pageName)) {
 			break;
 		}
 	}
 	
+	public void waitForPageTitle() {
+		waitForElementVisibility(titleText);
+	}
 	public String getPageTitle() {
+		waitForElementVisibility(titleText);
 		return getElementPropertyToString("text",titleText);
+	}
+	
+	public void selectBackButton() {
+		clickElement(backButton);
+	}
+	
+	public Boolean isBackButtonDisplayed() {
+		return VerifyElementPresent(backButton);
+	}
+	
+	/*
+	 * To-Do Work 
+	 * This method is used to initialize device state to respective screen. 
+	 * We have started building up based on the dependency identified in current test scripts
+	 * This work is in progress stage and method will get updated based on the requirement while writting new test
+	 */
+	public void initialize() {
+		waitForPageTitle();
+		switch (getPageTitle()) {
+			case "Home":
+				break;
+			case "Media Manager - Downloads":
+				Back(2);
+				break;
+			case "Media Manager - Pictures":
+				Back(2);
+				break;
+				
+		}
 	}
 
 }

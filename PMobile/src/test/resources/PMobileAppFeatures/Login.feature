@@ -3,6 +3,9 @@ Feature: PMobile application sign in feature
 	As a driver
 	I want to sign in to the application 
 
+Background:
+	Given There are no driver signin to the application
+	
 Scenario Outline: Verify that Single Driver can able to login and logout of the application successfully
 	Given Driver with driverid "<driverid1>" and password "<password1>" sign in to the application 
 	And Driver is on home page after successfull login
