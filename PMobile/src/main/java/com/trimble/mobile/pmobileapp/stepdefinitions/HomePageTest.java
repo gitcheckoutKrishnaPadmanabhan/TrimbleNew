@@ -25,4 +25,10 @@ public class HomePageTest {
 	   homePage.closeLoginAlert();
 	   homePage.waitTillHomePageLoaded();
 	}
+	
+	@Given("Driver navigate to home Page from Media Manager Page")
+	public void driver_navigate_to_home_Page_from_Media_Manager_Page() {
+		toolBar.Back(2);
+		toolBar.waitTillPageTitleDisplayed("Home");
+	}
 }

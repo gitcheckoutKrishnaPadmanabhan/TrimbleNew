@@ -20,6 +20,17 @@ public class LoginTest {
 		toolBar = testContext.getPageObjectManager().getToolBar();
 	}
 	
+
+	@Given("Driver login to the application")
+	public void driver_login_to_the_application() {
+		if(toolBar.getPageTitle().equalsIgnoreCase("Login")) {
+			loginPage.waitTillLoginPageLoaded();
+			loginPage.login("anitha", "anitha");
+			loginPage.waitTillDriverLogSheetLoaded();
+			toolBar.waitTillPageTitleDisplayed("Home");
+		}
+	}
+	
 	@Given("Driver with driverid {string} and password {string} sign in to the application")
 	public void driver_with_driverid_and_password_sign_in_to_the_application(String driverid, String password) {
 		loginPage.waitTillLoginPageLoaded();

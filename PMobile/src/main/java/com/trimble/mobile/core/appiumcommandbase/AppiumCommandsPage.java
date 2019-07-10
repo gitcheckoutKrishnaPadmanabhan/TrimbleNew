@@ -7,6 +7,7 @@ import static java.time.Duration.ofSeconds;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,11 +20,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.collect.Ordering;
+import com.trimble.mobile.core.enums.SortingType;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.touch.LongPressOptions;
+import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 
 public class AppiumCommandsPage {
@@ -92,18 +96,25 @@ public class AppiumCommandsPage {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @param webelement
+	 * @return true or false
+	 */
+	public boolean verifyElementDisplayed(WebElement webelement) {
+		try {
+			return webelement.isDisplayed();
+		}catch(Exception e){
+			return false;
+		}
+	}
 
 	/**
 	 * @param webelement
 	 * @return true or false
 	 */
 	public boolean VerifyElementPresent(WebElement webelement) {
-		try {
-			return webelement.isDisplayed();
-		}catch(Exception e){
-			e.printStackTrace();
-			return false;
-		}
+		return webelement.isDisplayed();
 	}
 	
 	/**
@@ -223,24 +234,33 @@ public class AppiumCommandsPage {
 	 * @return true if the list is sorted
 	 * @return false if the list is not sorted
 	 */
-	public boolean checkListIsSorted(List<String> ListToSort) {
+	public boolean checkListIsSorted(List<String> ListToSort,SortingType order) {
 
 		boolean isSorted = false;
 
 		if (ListToSort.size() > 0) {
 			try {
-				if (Ordering.natural().isOrdered(ListToSort)) {
-					isSorted = true;
-					return isSorted;
-				} else {
-					isSorted = false;
+				switch(order) {
+					case ascending:
+						if (Ordering.natural().isOrdered(ListToSort)) {
+							isSorted = true;
+						}else {
+							isSorted = false;
+						}
+						break;
+					case descending:
+						if(Ordering.natural().reverse().isOrdered(ListToSort)) {
+							isSorted = true;
+						}
+						else {
+							isSorted = false;
+						}
+						break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
-			System.out.println("List is not sorted");
-		}
+		} 
 		return isSorted;
 	}
 
@@ -432,5 +452,20 @@ So the second part is the one which we need to parse to get the count. So, alway
 	
 	public void reLaunchApp() {
 		appiumDriver.launchApp();
+	}
+	
+	/**
+	 * @param element
+	 *            Long Press element
+	 */
+	@SuppressWarnings("rawtypes")
+	public void longPress(WebElement webelement) {
+		TouchAction action = new TouchAction(appiumDriver);
+		action.longPress(new LongPressOptions()
+				.withElement(ElementOption.element(webelement))
+				.withDuration(Duration.ofMillis(10)))
+				.release()
+				.perform();
+
 	}
 }
