@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.trimble.mobile.core.appiumcommandbase.AppiumCommandsPage;
+import com.trimble.mobile.core.enums.Fields;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -29,6 +30,33 @@ public class HomePage extends AppiumCommandsPage {
 	
 	@FindAll(@FindBy(id="navigatoritem_label_textview"))
 	private List<WebElement> moduleMenu;
+	
+	@FindBy(xpath="//*[@text='Messaging']")
+    private WebElement messagingMenu;
+	
+	@FindBy(xpath="//*[@text='Vehicle']")
+    private WebElement vehicleMenu;
+	
+	@FindBy(xpath="//*[@text='Driver']")
+    private WebElement driverMenu;
+	
+	@FindBy(xpath="//*[@text='System']")
+    private WebElement systemMenu;
+	
+	@FindBy(xpath="//*[@text='Roadside']")
+    private WebElement roadsideMenu;
+	
+	@FindBy(xpath="//*[@text='Workflow']")
+    private WebElement workflowMenu;
+	
+	@FindBy(xpath="//*[@text='Navigation']")
+    private WebElement navigationMenu;
+	
+	@FindBy(xpath="//*[@text='Panic Alarm']")
+    private WebElement panicAlarmMenu;
+	
+	@FindBy(xpath="//*[@text='O.E.R.']")
+    private WebElement OERMenu;
 	
 	public HomePage(AppiumDriver<WebElement> driver) {
 		super(driver);
@@ -58,6 +86,47 @@ public class HomePage extends AppiumCommandsPage {
 	public void selectModule(String module) {
 		int index = getModuleIndex(module);
 		clickElement(moduleMenu.get(index));
+	}
+	
+	public void clickSubSection(Fields menu) {
+		switch(menu) {
+			case Messaging:
+				waitForElementToBeClickable(messagingMenu);
+    			clickElement(messagingMenu);
+				break;
+			case Vehicle:
+				waitForElementToBeClickable(vehicleMenu);
+    			clickElement(vehicleMenu);
+				break;
+			case Driver:
+				waitForElementToBeClickable(driverMenu);
+    			clickElement(driverMenu);
+				break;
+			case System:
+				waitForElementToBeClickable(systemMenu);
+    			clickElement(systemMenu);
+				break;
+			case Roadside:
+				waitForElementToBeClickable(roadsideMenu);
+    			clickElement(roadsideMenu);
+				break;
+			case Workflow:
+				waitForElementToBeClickable(workflowMenu);
+    			clickElement(workflowMenu);
+				break;
+			case Navigation:
+				waitForElementToBeClickable(navigationMenu);
+    			clickElement(navigationMenu);
+				break;
+			case PanicAlarm:
+				waitForElementToBeClickable(panicAlarmMenu);
+    			clickElement(panicAlarmMenu);
+				break;
+			case OER:
+				waitForElementToBeClickable(OERMenu);
+    			clickElement(OERMenu);
+				break;
+		}
 	}
 
 }

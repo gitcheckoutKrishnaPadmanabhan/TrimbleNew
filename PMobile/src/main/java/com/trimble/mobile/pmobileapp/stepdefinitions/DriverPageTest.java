@@ -1,5 +1,6 @@
 package com.trimble.mobile.pmobileapp.stepdefinitions;
 
+import com.trimble.mobile.core.enums.Fields;
 import com.trimble.mobile.core.testcontext.TestContext;
 import com.trimble.mobile.pmobileapp.pages.*;
 
@@ -26,9 +27,9 @@ public class DriverPageTest {
 	public void there_are_no_driver_signin_to_the_application() {
 		while(!toolBar.getPageTitle().equalsIgnoreCase("Login")) {
 			toolBar.initialize();
-			homePage.selectModule("Driver");
+			homePage.clickSubSection(Fields.Driver);
 			toolBar.waitTillPageTitleDisplayed("Driver");
-			driverPage.selectModule("Logout");
+			driverPage.clickSubSection(Fields.Logout);
 			toolBar.waitTillPageTitleDisplayed("Logout");
 			logoutPage.selectYesButton();
 		}
@@ -36,18 +37,18 @@ public class DriverPageTest {
 	
 	@When("Driver with driverid {string} tries to log out of the application")
 	public void driver_with_driverid_tries_to_log_out_of_the_application(String driverid) {
-		homePage.selectModule("Driver");
+		homePage.clickSubSection(Fields.Driver);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Logout");
+		driverPage.clickSubSection(Fields.Logout);
 		toolBar.waitTillPageTitleDisplayed("Logout");
 		logoutPage.selectYesButton();
 	}
 	
 	@Given("Driver log out of the application")
 	public void driver_log_out_of_the_application() {
-		homePage.selectModule("Driver");
+		homePage.clickSubSection(Fields.Driver);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Logout");
+		driverPage.clickSubSection(Fields.Logout);
 		toolBar.waitTillPageTitleDisplayed("Logout");
 		logoutPage.selectYesButton();
 	}
