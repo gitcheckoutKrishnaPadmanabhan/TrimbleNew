@@ -113,7 +113,7 @@ public class AppiumCommandsPage {
 	 * @param webelement
 	 * @return true or false
 	 */
-	public boolean VerifyElementPresent(WebElement webelement) {
+	public boolean verifyElementPresent(WebElement webelement) {
 		return webelement.isDisplayed();
 	}
 	
@@ -121,7 +121,7 @@ public class AppiumCommandsPage {
 	 * @param webelement
 	 * @return true or false
 	 */
-	public boolean VerifyElementEnabled(WebElement webelement) {
+	public boolean verifyElementEnabled(WebElement webelement) {
 		return webelement.isEnabled();
 	}
 	
@@ -129,7 +129,7 @@ public class AppiumCommandsPage {
 	 * @param webelement
 	 * @return true or false
 	 */
-	public boolean VerifyElementSelected(WebElement webelement) {
+	public boolean verifyElementSelected(WebElement webelement) {
 		return webelement.isSelected();
 	}
 	

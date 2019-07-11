@@ -130,9 +130,9 @@ public class MediaManagerPage extends AppiumCommandsPage {
 	}
 	
 	public void verifySelectFolderPathPopUpUI() {
-		VerifyElementPresent(folderSelectPopUpTitle);
-		VerifyElementPresent(downloadOption);
-		VerifyElementPresent(picturesOption);
+		verifyElementPresent(folderSelectPopUpTitle);
+		verifyElementPresent(downloadOption);
+		verifyElementPresent(picturesOption);
 	}
 	
 	
@@ -152,11 +152,11 @@ public class MediaManagerPage extends AppiumCommandsPage {
 	}
 	
 	public void validateMediaManagerScreenAttribute() {
-		VerifyElementPresent(textView);
-		VerifyElementPresent(changeFolderBtn);
-		VerifyElementPresent(nameColumn);
-		VerifyElementPresent(sizeColumn);
-		VerifyElementPresent(dateColumn);
+		verifyElementPresent(textView);
+		verifyElementPresent(changeFolderBtn);
+		verifyElementPresent(nameColumn);
+		verifyElementPresent(sizeColumn);
+		verifyElementPresent(dateColumn);
 	}
 
 	public Boolean isCancelButtonDisplayed() {
@@ -220,10 +220,10 @@ public class MediaManagerPage extends AppiumCommandsPage {
 	}
 	
 	public void validateDeleteAlertUI() {
-		VerifyElementPresent(deleteAlerttitle);
-		VerifyElementPresent(deleteAlertmessage);
-		VerifyElementPresent(yesMenu);
-		VerifyElementPresent(cancelMenu);
+		verifyElementPresent(deleteAlerttitle);
+		verifyElementPresent(deleteAlertmessage);
+		verifyElementPresent(yesMenu);
+		verifyElementPresent(cancelMenu);
 	}
 	
 	public void clickCheckAllCheckBox() {

@@ -78,7 +78,7 @@ public class DriverPage extends AppiumCommandsPage {
 	
 	public void selectModule(String module) {
 		int index = getModuleIndex(module);
-		while(VerifyElementEnabled(moduleMenu.get(index)) == false){
+		while(verifyElementEnabled(moduleMenu.get(index)) == false){
 			waitForElementToBeClickable(moduleMenu.get(index));
 		}
 		clickElement(moduleMenu.get(index));

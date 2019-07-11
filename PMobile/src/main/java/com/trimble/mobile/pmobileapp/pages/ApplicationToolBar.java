@@ -43,7 +43,7 @@ public class ApplicationToolBar extends AppiumCommandsPage {
 	}
 	
 	public Boolean isBackButtonDisplayed() {
-		return VerifyElementPresent(backButton);
+		return verifyElementPresent(backButton);
 	}
 	
 	/*
