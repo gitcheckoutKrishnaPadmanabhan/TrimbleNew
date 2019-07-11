@@ -71,7 +71,7 @@ public class MediaManagerTest {
 	
 	@Given("Driver views download section in Media Manager Page")
 	public void driver_views_download_section_in_Media_Manager_Page() {
-		mediaManager.selectFolderPath(Fields.Pictures);
+		mediaManager.selectFolderPath(Fields.Download);
 		toolBar.waitTillPageTitleDisplayed("Media Manager - Downloads");
 		mediaManager.validateMediaManagerScreenAttribute();
 	}
