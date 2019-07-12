@@ -36,16 +36,16 @@ public class MediaManagerTest {
 				||  mediaManager.isSelectFolderPathPopUpDisplayed()==false){
 			toolBar.initialize();
 			toolBar.waitTillPageTitleDisplayed("Home");
-			homePage.selectModule("Driver");
+			homePage.clickSubSection(Fields.Driver);
 			toolBar.waitTillPageTitleDisplayed("Driver");
-			driverPage.selectModule("Media Manager");
+			driverPage.clickSubSection(Fields.MediaManager);
 		}
 	}
 	
 	@Given("Driver taken picture and saved media using camera menu")
 	public void driver_taken_picture_and_saved_media_using_camera_menu() throws InterruptedException {
 		toolBar.waitTillPageTitleDisplayed("Home");
-		homePage.selectModule("System");
+		homePage.clickSubSection(Fields.System);
 		toolBar.waitTillPageTitleDisplayed("System");
 		systemPage.clickSubSection(Fields.Camera);
 		systemPage.takeSinglePicture();
@@ -71,7 +71,7 @@ public class MediaManagerTest {
 	
 	@Given("Driver views download section in Media Manager Page")
 	public void driver_views_download_section_in_Media_Manager_Page() {
-		mediaManager.selectFolderPath(Fields.Pictures);
+		mediaManager.selectFolderPath(Fields.Download);
 		toolBar.waitTillPageTitleDisplayed("Media Manager - Downloads");
 		mediaManager.validateMediaManagerScreenAttribute();
 	}
@@ -86,17 +86,17 @@ public class MediaManagerTest {
 	@When("Driver navigate to Media Manager Page")
 	public void driver_navigate_to_Media_Manager_Page() {
 		toolBar.waitTillPageTitleDisplayed("Home");
-		homePage.selectModule("Driver");
+		homePage.clickSubSection(Fields.Driver);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Media Manager");
+		driverPage.clickSubSection(Fields.MediaManager);
 	}
 	
 	@When("Driver navigate back to picture view in Media Manager Page")
 	public void driver_navigate_back_to_picture_view_in_Media_Manager_Page() {
 		toolBar.waitTillPageTitleDisplayed("Home");
-		homePage.selectModule("Driver");
+		homePage.clickSubSection(Fields.Driver);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Media Manager");
+		driverPage.clickSubSection(Fields.MediaManager);
 		mediaManager.selectFolderPath(Fields.Pictures);
 	}
 
@@ -115,7 +115,7 @@ public class MediaManagerTest {
 	public void driver_navigate_to_some_other_page_and_return_back_to_Media_Manager_page() {
 		toolBar.Back(1);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Media Manager");
+		driverPage.clickSubSection(Fields.MediaManager);
 	}
 	
 	@When("Driver change folder selection to Downloads")
@@ -150,13 +150,13 @@ public class MediaManagerTest {
 		}else {
 			toolBar.Back(2);
 			toolBar.waitTillPageTitleDisplayed("Home");
-			homePage.selectModule("System");
+			homePage.clickSubSection(Fields.System);
 			systemPage.clickSubSection(Fields.Camera);
 			systemPage.takeMultiplePicture();
 			toolBar.waitTillPageTitleDisplayed("Home");
-			homePage.selectModule("Driver");
+			homePage.clickSubSection(Fields.Driver);
 			toolBar.waitTillPageTitleDisplayed("Driver");
-			driverPage.selectModule("Media Manager");
+			driverPage.clickSubSection(Fields.MediaManager);
 			mediaManager.selectFolderPath(Fields.Pictures);
 			testContext.getScenarioContext().setContext("listCount", mediaManager.getListCount());
 		}
@@ -291,7 +291,7 @@ public class MediaManagerTest {
 	public void driver_sort_Picture_view_using_Name_field_in_ascending_order() {
 		mediaManager.Back(1);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Media Manager");
+		driverPage.clickSubSection(Fields.MediaManager);
 		toolBar.waitForPageTitle();
 	}
 
@@ -305,7 +305,7 @@ public class MediaManagerTest {
 	public void driver_sort_Picture_view_using_Name_field_in_descending_order() {
 		mediaManager.Back(1);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Media Manager");
+		driverPage.clickSubSection(Fields.MediaManager);
 		toolBar.waitForPageTitle();
 		mediaManager.sortMenu(Fields.Name);
 	}
@@ -320,7 +320,7 @@ public class MediaManagerTest {
 	public void driver_sort_Picture_view_using_Size_field_in_ascending_order() {
 		mediaManager.Back(1);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Media Manager");
+		driverPage.clickSubSection(Fields.MediaManager);
 		toolBar.waitForPageTitle();
 		mediaManager.sortMenu(Fields.Size);
 	}
@@ -335,7 +335,7 @@ public class MediaManagerTest {
 	public void driver_sort_Picture_view_using_Size_field_in_descending_order() {
 		mediaManager.Back(1);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Media Manager");
+		driverPage.clickSubSection(Fields.MediaManager);
 		toolBar.waitForPageTitle();
 		mediaManager.sortMenu(Fields.Size);
 		mediaManager.sortMenu(Fields.Size);
@@ -351,7 +351,7 @@ public class MediaManagerTest {
 	public void driver_sort_Picture_view_using_Date_field_in_ascending_order() {
 		mediaManager.Back(1);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Media Manager");
+		driverPage.clickSubSection(Fields.MediaManager);
 		toolBar.waitForPageTitle();
 		mediaManager.sortMenu(Fields.Date);
 	}
@@ -366,7 +366,7 @@ public class MediaManagerTest {
 	public void driver_sort_Picture_view_using_Date_field_in_descending_order() {
 		mediaManager.Back(1);
 		toolBar.waitTillPageTitleDisplayed("Driver");
-		driverPage.selectModule("Media Manager");
+		driverPage.clickSubSection(Fields.MediaManager);
 		toolBar.waitForPageTitle();
 		mediaManager.sortMenu(Fields.Date);
 		mediaManager.sortMenu(Fields.Date);
