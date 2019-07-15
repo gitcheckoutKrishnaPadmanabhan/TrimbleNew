@@ -29,13 +29,13 @@ Scenario: Verify that,selected folder option should be retained if user navigate
 	Then Driver has access to Download section in Media Manager
 
 #TC-2277
-#Scenario: Verify that, folder selection will be retained if driver sign out and sign in to the application
-#	Given Driver views Pnet Picture section in Media Manager Page
-#	And Driver navigate to home Page from Media Manager Page
-#	And Driver log out of the application
-#	And Driver login to the application
-#	When Driver is in Media Manager Page
-#	Then Driver has access to Pnet Picture section in Media Manager Page
+Scenario: Verify that, folder selection will be retained if driver sign out and sign in to the application
+	Given Driver views Pnet Picture section in Media Manager Page
+	And Driver navigate to home Page from Media Manager Page
+	And Driver log out of the application
+	And Driver login to the application
+	When Driver is in Media Manager Page
+	Then Driver has access to Pnet Picture section in Media Manager Page
 
 #TC-939
 Scenario: Verify that, user can change the folder selection from Pictures to Downloads in Media Manager Page
