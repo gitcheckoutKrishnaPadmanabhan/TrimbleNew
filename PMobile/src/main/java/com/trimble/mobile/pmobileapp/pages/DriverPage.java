@@ -95,35 +95,27 @@ public class DriverPage extends AppiumCommandsPage {
     			clickElement(logoutMenu);
 				break;
 			case ChangeUser:
-				waitForElementToBeClickable(changeUserMenu);
     			clickElement(changeUserMenu);
 				break;
 			case DriverTraining:
-				waitForElementToBeClickable(driverTrainingMenu);
     			clickElement(driverTrainingMenu);
 				break;
 			case ChangeDriver:
-				waitForElementToBeClickable(changeDriverMenu);
     			clickElement(changeDriverMenu);
 				break;
 			case DeviceTraining:
-				waitForElementToBeClickable(deviceTrainingMenu);
     			clickElement(deviceTrainingMenu);
 				break;
 			case Internet:
-				waitForElementToBeClickable(internetMenu);
     			clickElement(internetMenu);
 				break;
 			case MediaManager:
-				waitForElementToBeClickable(mediaManagerMenu);
     			clickElement(mediaManagerMenu);
 				break;
 			case AndroidAccess:
-				waitForElementToBeClickable(androidAccessMenu);
     			clickElement(androidAccessMenu);
 				break;
 			case MyMedia:
-				waitForElementToBeClickable(myMediaMenu);
     			clickElement(myMediaMenu);
 				break;
 		}

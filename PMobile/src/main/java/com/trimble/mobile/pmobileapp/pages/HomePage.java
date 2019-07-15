@@ -91,39 +91,30 @@ public class HomePage extends AppiumCommandsPage {
 	public void clickSubSection(Fields menu) {
 		switch(menu) {
 			case Messaging:
-				waitForElementToBeClickable(messagingMenu);
     			clickElement(messagingMenu);
 				break;
 			case Vehicle:
-				waitForElementToBeClickable(vehicleMenu);
     			clickElement(vehicleMenu);
 				break;
 			case Driver:
-				waitForElementToBeClickable(driverMenu);
     			clickElement(driverMenu);
 				break;
 			case System:
-				waitForElementToBeClickable(systemMenu);
     			clickElement(systemMenu);
 				break;
 			case Roadside:
-				waitForElementToBeClickable(roadsideMenu);
     			clickElement(roadsideMenu);
 				break;
 			case Workflow:
-				waitForElementToBeClickable(workflowMenu);
     			clickElement(workflowMenu);
 				break;
 			case Navigation:
-				waitForElementToBeClickable(navigationMenu);
     			clickElement(navigationMenu);
 				break;
 			case PanicAlarm:
-				waitForElementToBeClickable(panicAlarmMenu);
     			clickElement(panicAlarmMenu);
 				break;
 			case OER:
-				waitForElementToBeClickable(OERMenu);
     			clickElement(OERMenu);
 				break;
 		}

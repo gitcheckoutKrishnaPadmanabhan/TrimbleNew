@@ -101,8 +101,7 @@ public class MediaManagerPage extends AppiumCommandsPage {
 	public void selectFolderPath(Fields menu) {
 		switch (menu) {
 			case Download:
-				waitForElementVisibility(downloadOption);
-				if(verifyElementDisplayed(downloadOption)==true) {
+				if(verifyElementDisplayed(downloadOption)) {
 					clickElement(downloadOption);
 					clickElement(okBtn);
 				}else if(getElementPropertyToString("text",toolBarTitle).equalsIgnoreCase("Media Manager - Pictures")){
@@ -112,7 +111,6 @@ public class MediaManagerPage extends AppiumCommandsPage {
 				}
 				break;
 			case Pictures:
-				waitForElementVisibility(picturesOption);
 				if(verifyElementDisplayed(picturesOption)==true) {
 					clickElement(picturesOption);
 					clickElement(okBtn);
@@ -168,7 +166,6 @@ public class MediaManagerPage extends AppiumCommandsPage {
 	}
 	
 	public void selectChangeFolder() {
-		waitForElementVisibility(changeFolderBtn);
 		clickElement(changeFolderBtn);
 	}
 	
@@ -193,26 +190,20 @@ public class MediaManagerPage extends AppiumCommandsPage {
 	}
 	
 	public void clickDelete() {
-		waitForElementVisibility(deleteBtn);
 		clickElement(deleteBtn);
-		waitForElementVisibility(folderSelectPopUpTitle);
 	}
 	
 	public void clickCancel() {
-		waitForElementVisibility(cancelBtn);
 		clickElement(cancelBtn);
-		waitForElementVisibility(folderSelectPopUpTitle);
 	}
 	
 	public void selectMenuFromDeleteAlert(Fields menu) {
 		switch(menu) {
 			case Yes:
 				clickElement(yesMenu);
-				waitForElementInVisibility(folderSelectPopUpTitle);
 				break;
 			case Cancel:
 				clickElement(cancelMenu);
-				waitForElementInVisibility(folderSelectPopUpTitle);
 				break;
 			default :
 				break;
@@ -227,7 +218,6 @@ public class MediaManagerPage extends AppiumCommandsPage {
 	}
 	
 	public void clickCheckAllCheckBox() {
-		waitForElementVisibility(masterCheckBox);
 		clickElement(masterCheckBox);
 	}
 	
@@ -252,7 +242,6 @@ public class MediaManagerPage extends AppiumCommandsPage {
 	}
 	
 	public void waitTillImageLoaded() {
-		waitForElementInVisibility(toolBarTitle);
 		waitForElementVisibility(imageView);
 	}
 	

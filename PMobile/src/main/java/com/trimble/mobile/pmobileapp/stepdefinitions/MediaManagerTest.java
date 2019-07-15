@@ -32,8 +32,10 @@ public class MediaManagerTest {
 	@Given("Driver is in Media Manager Page")
 	public void driver_is_in_Media_Manager_Page() throws InterruptedException {
 		toolBar.waitForPageTitle();
-		if(!toolBar.getPageTitle().equalsIgnoreCase("Media Manager - Downloads")||!(toolBar.getPageTitle().equalsIgnoreCase("Media Manager - Pictures"))
-				||  mediaManager.isSelectFolderPathPopUpDisplayed()==false){
+		if(toolBar.getPageTitle().equalsIgnoreCase("Media Manager - Downloads")||(toolBar.getPageTitle().equalsIgnoreCase("Media Manager - Pictures"))
+				||  mediaManager.isSelectFolderPathPopUpDisplayed()==true){
+
+		} else {
 			toolBar.initialize();
 			toolBar.waitTillPageTitleDisplayed("Home");
 			homePage.clickSubSection(Fields.Driver);
