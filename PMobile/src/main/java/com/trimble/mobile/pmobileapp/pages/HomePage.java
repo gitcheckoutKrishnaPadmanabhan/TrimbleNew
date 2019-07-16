@@ -30,7 +30,7 @@ public class HomePage extends AppiumCommandsPage {
 	
 	@FindAll(@FindBy(id="navigatoritem_label_textview"))
 	private List<WebElement> moduleMenu;
-	
+  
 	@FindBy(xpath="//*[@text='Messaging']")
     private WebElement messagingMenu;
 	
@@ -103,7 +103,7 @@ public class HomePage extends AppiumCommandsPage {
     			clickElement(driverMenu);
 				break;
 			case System:
-				waitForElementToBeClickable(systemMenu);
+					waitForElementVisibility(systemButton);
     			clickElement(systemMenu);
 				break;
 			case Roadside:
@@ -128,5 +128,4 @@ public class HomePage extends AppiumCommandsPage {
 				break;
 		}
 	}
-
 }
