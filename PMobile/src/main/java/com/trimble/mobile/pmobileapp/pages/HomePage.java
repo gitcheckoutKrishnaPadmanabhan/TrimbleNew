@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.trimble.mobile.core.appiumcommandbase.AppiumCommandsPage;
+import com.trimble.mobile.core.enums.Fields;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -29,36 +30,33 @@ public class HomePage extends AppiumCommandsPage {
 	
 	@FindAll(@FindBy(id="navigatoritem_label_textview"))
 	private List<WebElement> moduleMenu;
-	
-	@FindBy(id = "pnetpage_homebutton_imagebutton")
-	private WebElement peoplenetLogo;
-	
-	@FindBy(id = "pnetpage_titletext_textview")
-	private WebElement homeText;
-	
+  
 	@FindBy(xpath="//*[@text='Messaging']")
-	private WebElement messagingButton;
+    private WebElement messagingMenu;
 	
-	@FindBy(xpath="//*[@text='AOBRD eDriver Logs']")
-	private WebElement AOBRDButton;
+	@FindBy(xpath="//*[@text='Vehicle']")
+    private WebElement vehicleMenu;
 	
 	@FindBy(xpath="//*[@text='Driver']")
-	private WebElement driverButton;
+    private WebElement driverMenu;
 	
 	@FindBy(xpath="//*[@text='System']")
-	private WebElement systemButton;
+    private WebElement systemMenu;
+	
+	@FindBy(xpath="//*[@text='Roadside']")
+    private WebElement roadsideMenu;
 	
 	@FindBy(xpath="//*[@text='Workflow']")
-	private WebElement workflowButton;
+    private WebElement workflowMenu;
 	
 	@FindBy(xpath="//*[@text='Navigation']")
-	private WebElement navigationButton;
+    private WebElement navigationMenu;
 	
 	@FindBy(xpath="//*[@text='Panic Alarm']")
-	private WebElement panicAlarmButton;
+    private WebElement panicAlarmMenu;
 	
 	@FindBy(xpath="//*[@text='O.E.R.']")
-	private WebElement oerButton;
+    private WebElement OERMenu;
 	
 	public HomePage(AppiumDriver<WebElement> driver) {
 		super(driver);
@@ -90,16 +88,44 @@ public class HomePage extends AppiumCommandsPage {
 		clickElement(moduleMenu.get(index));
 	}
 	
-	public void clickSubSections(String menu) {
-
-		switch (menu) {
-
-		case "System":
-			waitForElementVisibility(systemButton);
-			clickElement(systemButton);
-			break;
-
+	public void clickSubSection(Fields menu) {
+		switch(menu) {
+			case Messaging:
+				waitForElementToBeClickable(messagingMenu);
+    			clickElement(messagingMenu);
+				break;
+			case Vehicle:
+				waitForElementToBeClickable(vehicleMenu);
+    			clickElement(vehicleMenu);
+				break;
+			case Driver:
+				waitForElementToBeClickable(driverMenu);
+    			clickElement(driverMenu);
+				break;
+			case System:
+					waitForElementVisibility(systemButton);
+    			clickElement(systemMenu);
+				break;
+			case Roadside:
+				waitForElementToBeClickable(roadsideMenu);
+    			clickElement(roadsideMenu);
+				break;
+			case Workflow:
+				waitForElementToBeClickable(workflowMenu);
+    			clickElement(workflowMenu);
+				break;
+			case Navigation:
+				waitForElementToBeClickable(navigationMenu);
+    			clickElement(navigationMenu);
+				break;
+			case PanicAlarm:
+				waitForElementToBeClickable(panicAlarmMenu);
+    			clickElement(panicAlarmMenu);
+				break;
+			case OER:
+				waitForElementToBeClickable(OERMenu);
+    			clickElement(OERMenu);
+				break;
 		}
-	}	
-
+	}
 }

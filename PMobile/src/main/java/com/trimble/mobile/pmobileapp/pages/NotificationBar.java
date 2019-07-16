@@ -21,7 +21,7 @@ public class NotificationBar extends AppiumCommandsPage{
 	public String getUserName() {
 		
 		String userName = null;
-		while(VerifyElementPresent(mainTitleTextView)) {
+		while(verifyElementDisplayed(mainTitleTextView)) {
 			String sample = mainTitleTextView.getText();
 			if(sample.contains("Active")) {
 				userName = sample;

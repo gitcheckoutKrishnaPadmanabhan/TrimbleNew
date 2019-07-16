@@ -7,6 +7,7 @@ import static java.time.Duration.ofSeconds;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,10 +22,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.google.common.collect.Ordering;
 import com.trimble.mobile.core.filereader.PropertyFileReader;
 
+import com.trimble.mobile.core.enums.SortingType;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.touch.LongPressOptions;
+import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 
 public class AppiumCommandsPage {
@@ -37,11 +42,15 @@ public class AppiumCommandsPage {
 
 	public WebDriverWait wait;
 	
+
 	private String adbPath;
-	
+  
 	public String getAdbPath() {
 		return adbPath;
 	}
+  
+	private final int appiumDriverWait = 60;
+
 
 	public void setAdbPath(String adbPath) {
 		this.adbPath = adbPath;
@@ -62,7 +71,7 @@ public class AppiumCommandsPage {
 	public AppiumCommandsPage(AppiumDriver<WebElement> driver) {
 		initialize();
 		this.appiumDriver = driver;
-		wait = new WebDriverWait(driver, 30);
+		wait = new WebDriverWait(driver, appiumDriverWait);
 	}
 	
 	/**
@@ -87,7 +96,6 @@ public class AppiumCommandsPage {
 			e.printStackTrace();
 		}
 	}
-	
 
 	/**
 	 * @param Webelement
@@ -112,12 +120,24 @@ public class AppiumCommandsPage {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @param webelement
+	 * @return true or false
+	 */
+	public boolean verifyElementDisplayed(WebElement webelement) {
+		try {
+			return webelement.isDisplayed();
+		}catch(Exception e){
+			return false;
+		}
+	}
 
 	/**
 	 * @param webelement
 	 * @return true or false
 	 */
-	public boolean VerifyElementPresent(WebElement webelement) {
+	public boolean verifyElementPresent(WebElement webelement) {
 		return webelement.isDisplayed();
 	}
 	
@@ -174,7 +194,7 @@ public class AppiumCommandsPage {
 	 * @param webelement
 	 * @return true or false
 	 */
-	public boolean VerifyElementEnabled(WebElement webelement) {
+	public boolean verifyElementEnabled(WebElement webelement) {
 		return webelement.isEnabled();
 	}
 	
@@ -182,7 +202,7 @@ public class AppiumCommandsPage {
 	 * @param webelement
 	 * @return true or false
 	 */
-	public boolean VerifyElementSelected(WebElement webelement) {
+	public boolean verifyElementSelected(WebElement webelement) {
 		return webelement.isSelected();
 		
 	}
@@ -288,24 +308,33 @@ public class AppiumCommandsPage {
 	 * @return true if the list is sorted
 	 * @return false if the list is not sorted
 	 */
-	public boolean checkListIsSorted(List<String> ListToSort) {
+	public boolean checkListIsSorted(List<String> ListToSort,SortingType order) {
 
 		boolean isSorted = false;
 
 		if (ListToSort.size() > 0) {
 			try {
-				if (Ordering.natural().isOrdered(ListToSort)) {
-					isSorted = true;
-					return isSorted;
-				} else {
-					isSorted = false;
+				switch(order) {
+					case ascending:
+						if (Ordering.natural().isOrdered(ListToSort)) {
+							isSorted = true;
+						}else {
+							isSorted = false;
+						}
+						break;
+					case descending:
+						if(Ordering.natural().reverse().isOrdered(ListToSort)) {
+							isSorted = true;
+						}
+						else {
+							isSorted = false;
+						}
+						break;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
-			System.out.println("List is not sorted");
-		}
+		} 
 		return isSorted;
 	}
 
@@ -354,7 +383,9 @@ public class AppiumCommandsPage {
 	 *            the text
 	 */
 	public void enterText(WebElement webelement, String text) {
+		clickElement(webelement);
 		webelement.sendKeys(text);
+		hideKeyboard();
 	}
 	
 	/**
@@ -367,12 +398,25 @@ public class AppiumCommandsPage {
 	/**
 	 * @param byLocator
 	 * @returns the list count of the elements
+	 * we need to get the count of Web element (XPath) =  “//*[@text='API Demos']* “ 
+After converting it as a string, value stored in the String xPath = “Located by By.xpath: //*[@text='API Demos’]”
+So, we are splitting the in put by “:”. so we get two outputs,
+1. Located by By.xpath 
+2. //*[@text='API Demos']
+
+So the second part is the one which we need to parse to get the count. So, always 1 will be constant which retrieves count in the list
 	 */
 	public int getCount(WebElement webelement) {
 
 		int count = 0;
 		try {
-			count = appiumDriver.findElements((By) webelement).size();
+			
+			String xpath = webelement.toString();
+		    String[] test = xpath.split(": ");
+		        xpath = test[1];
+		        count = appiumDriver.findElements(By.xpath(xpath)).size();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -479,5 +523,23 @@ public class AppiumCommandsPage {
 			e.printStackTrace();
 		}
 	}
+
+	public void reLaunchApp() {
+		appiumDriver.launchApp();
+	}
 	
+	/**
+	 * @param element
+	 *            Long Press element
+	 */
+	@SuppressWarnings("rawtypes")
+	public void longPress(WebElement webelement) {
+		TouchAction action = new TouchAction(appiumDriver);
+		action.longPress(new LongPressOptions()
+				.withElement(ElementOption.element(webelement))
+				.withDuration(Duration.ofMillis(10)))
+				.release()
+				.perform();
+
+	}
 }
