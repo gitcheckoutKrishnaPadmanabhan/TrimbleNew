@@ -222,8 +222,8 @@ public class SettingsPage extends AppiumCommandsPage {
 	}
 
 	public void verifySlidersDisplayed() {
-		VerifyElementPresent(volumeSeekbar);
-		VerifyElementPresent(backlightSeekbar);
+		verifyElementPresent(volumeSeekbar);
+		verifyElementPresent(backlightSeekbar);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -296,10 +296,10 @@ public class SettingsPage extends AppiumCommandsPage {
 	}
 	
 	public void verifyUnitsSection() {
-		VerifyElementPresent(unitsText);
-		VerifyElementPresent(usRadioButton);
-		VerifyElementPresent(metricRadioButton);
-		VerifyElementPresent(imperialRadioButton);
+		verifyElementPresent(unitsText);
+		verifyElementPresent(usRadioButton);
+		verifyElementPresent(metricRadioButton);
+		verifyElementPresent(imperialRadioButton);
 	}
 
 	public String verifyUnitsRadioButtons(String units) {
@@ -319,10 +319,10 @@ public class SettingsPage extends AppiumCommandsPage {
 	}
 
 	public void verifyLanguageSection() {
-		VerifyElementPresent(LanguageText);
-		VerifyElementPresent(englishRadioButton);
-		VerifyElementPresent(spanishRadioButton);
-		VerifyElementPresent(frenchRadioButton);
+		verifyElementPresent(LanguageText);
+		verifyElementPresent(englishRadioButton);
+		verifyElementPresent(spanishRadioButton);
+		verifyElementPresent(frenchRadioButton);
 	}
 
 	public void chooseLanguageRadioButtons(String units) {
@@ -367,10 +367,10 @@ public class SettingsPage extends AppiumCommandsPage {
 	}
 
 	public void verifyFontSection() {
-		VerifyElementPresent(fontSizeText);
-		VerifyElementPresent(normalRadioButton);
-		VerifyElementPresent(largerRadioButton);
-		VerifyElementPresent(restartText);
+		verifyElementPresent(fontSizeText);
+		verifyElementPresent(normalRadioButton);
+		verifyElementPresent(largerRadioButton);
+		verifyElementPresent(restartText);
 	}
 
 	public int getFontSize() {
@@ -403,10 +403,10 @@ public class SettingsPage extends AppiumCommandsPage {
 
 	public void verifySortMessageSection() {
 
-		VerifyElementPresent(sortMessagesButton);
-		VerifyElementPresent(sortMessagesTitle);
-		VerifyElementPresent(dateAscendingRadioButton);
-		VerifyElementPresent(dateDescendingRadioButton);
+		verifyElementPresent(sortMessagesButton);
+		verifyElementPresent(sortMessagesTitle);
+		verifyElementPresent(dateAscendingRadioButton);
+		verifyElementPresent(dateDescendingRadioButton);
 	}
 
 	public void chooseSortMessagesRadioButtons(String order) {
@@ -457,13 +457,13 @@ public class SettingsPage extends AppiumCommandsPage {
 	
 	public void verifyDateTimeFormatSection() {
 
-		VerifyElementPresent(timeFormatText);
-		VerifyElementPresent(tweleveHourRadioButton);
-		VerifyElementPresent(twentyFourHourRadioButton);
-		VerifyElementPresent(dateFormatText);
-		VerifyElementPresent(MMDDYYFormatRadioButton);
-		VerifyElementPresent(DDMMYYFormatRadioButton);
-		VerifyElementPresent(offRadioButton);
+		verifyElementPresent(timeFormatText);
+		verifyElementPresent(tweleveHourRadioButton);
+		verifyElementPresent(twentyFourHourRadioButton);
+		verifyElementPresent(dateFormatText);
+		verifyElementPresent(MMDDYYFormatRadioButton);
+		verifyElementPresent(DDMMYYFormatRadioButton);
+		verifyElementPresent(offRadioButton);
 	}
 
 	

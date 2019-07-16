@@ -103,7 +103,7 @@ public class HomePage extends AppiumCommandsPage {
     			clickElement(driverMenu);
 				break;
 			case System:
-					waitForElementVisibility(systemButton);
+					waitForElementVisibility(systemMenu);
     			clickElement(systemMenu);
 				break;
 			case Roadside:

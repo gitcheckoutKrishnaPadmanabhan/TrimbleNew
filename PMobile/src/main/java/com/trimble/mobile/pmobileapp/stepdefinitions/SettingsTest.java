@@ -1,5 +1,6 @@
 package com.trimble.mobile.pmobileapp.stepdefinitions;
 
+import com.trimble.mobile.core.enums.Fields;
 import org.testng.Assert;
 import com.trimble.mobile.core.testcontext.TestContext;
 import com.trimble.mobile.pmobileapp.pages.HomePage;
@@ -26,7 +27,7 @@ public class SettingsTest {
 
 	@Given("^I am on the Settings screen$")
 	public void i_am_on_the_settings_screen() throws Throwable {
-		homePage.clickSubSections("System");
+		homePage.clickSubSection(Fields.System);
 		systemPage.clickSettings();
 	}
 
