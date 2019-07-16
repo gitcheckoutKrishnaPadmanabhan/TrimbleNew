@@ -42,6 +42,8 @@ public class SystemPage extends AppiumCommandsPage{
 	private WebElement shutterButton;
     
     private final int sleepTime = 500;
+    private final int Back = 4;
+
     public SystemPage(AppiumDriver<WebElement> driver) {
         super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
@@ -87,7 +89,7 @@ public class SystemPage extends AppiumCommandsPage{
 		waitForElementVisibility(shutterButton);
 		clickElement(shutterButton);
 		Thread.sleep(sleepTime);
-		adbKeyEvents(4);
+		adbKeyEvents(Back);
 	}
 	
 	public void takeMultiplePicture() throws InterruptedException {
@@ -96,6 +98,6 @@ public class SystemPage extends AppiumCommandsPage{
 		clickElement(shutterButton);
 		clickElement(shutterButton);
 		Thread.sleep(sleepTime);
-		adbKeyEvents(4);
+		adbKeyEvents(Back);
 	}
 }
