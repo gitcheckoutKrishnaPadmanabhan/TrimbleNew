@@ -49,56 +49,48 @@ public class SystemPage extends AppiumCommandsPage{
     private WebElement fleetHomeSetupButton;
     
     @FindBy(xpath="//*[@text='Shutter']")
-	  private WebElement shutterButton;
-	
-  private final int sleepTime = 500;
-  
-  
-	public SystemPage(AppiumDriver<WebElement> driver) {
-		super(driver);
-		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-	}
-	
-	public void clickSettings() {
-		clickElement(settingsButton);
-	}
-  
+
+	private WebElement shutterButton;
+    
+    private final int sleepTime = 500;
+    private final int Back = 4;
+
+    public SystemPage(AppiumDriver<WebElement> driver) {
+        super(driver);
+        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+    }
+    
+    public void clickSettings() {
+        clickElement(settingsButton);
+    }
+    
     public void clickSubSection(Fields Menu) {
     	switch(Menu) {
     		case Settings:
-    			waitForElementVisibility(settingsButton);
     			clickElement(settingsButton);
     			break;
     		case OBCDignostic:
-    			waitForElementVisibility(obcDiagnosticButton);
     			clickElement(obcDiagnosticButton);
     			break;
     		case Information:
-    			waitForElementVisibility(informationButton);
     			clickElement(informationButton);
     			break;
     		case OTAP:
-    			waitForElementVisibility(otapButton);
     			clickElement(otapButton);
     			break;
     		case Version:
-    			waitForElementVisibility(versionButton);
     			clickElement(versionButton);
     			break;
     		case LicencePlate:
-    			waitForElementVisibility(licensePlateButton);
     			clickElement(licensePlateButton);
     			break;
     		case WifiSetup:
-    			waitForElementVisibility(wifiSetupButton);
     			clickElement(wifiSetupButton);
     			break;
     		case Camera:
-    			waitForElementVisibility(cameraButton);
     			clickElement(cameraButton);
     			break;
     		case FleetHomeSetup:
-    			waitForElementVisibility(fleetHomeSetupButton);
     			clickElement(fleetHomeSetupButton);
     			break;
     	}
@@ -107,8 +99,8 @@ public class SystemPage extends AppiumCommandsPage{
 	public void takeSinglePicture() throws InterruptedException {
 		waitForElementVisibility(shutterButton);
 		clickElement(shutterButton);
-		Thread.sleep(sleepTime); 
-		Back(1);
+		Thread.sleep(sleepTime);
+		adbKeyEvents(Back);
 	}
 	
 	public void takeMultiplePicture() throws InterruptedException {
@@ -116,8 +108,7 @@ public class SystemPage extends AppiumCommandsPage{
 		clickElement(shutterButton);
 		clickElement(shutterButton);
 		clickElement(shutterButton);
-		Thread.sleep(sleepTime); 
-		Back(1);
-		waitForElementInVisibility(shutterButton);
+		Thread.sleep(sleepTime);
+		adbKeyEvents(Back);
 	}
 }

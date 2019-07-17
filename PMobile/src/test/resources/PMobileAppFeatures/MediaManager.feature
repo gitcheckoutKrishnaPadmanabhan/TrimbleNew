@@ -16,31 +16,33 @@ Scenario: Verify that, PNet Pictures displays the pictures taken by the system c
 	Then Newly taken picture should get updated in picture list view
 
 #TC-935,TC-940
-Scenario: Verify that, user displayed with an option to view Pnet Pictures or Downloads after reboot 
+Scenario: Verify that, user displayed with an option to view Pnet Pictures or Downloads after reboot
 	Given Driver views download section in Media Manager Page
 	And Driver reboot PMobile application
 	When Driver navigate to Media Manager Page
 	Then Driver will be prompted to select the folder path
 
+#TC-2275
 Scenario: Verify that,selected folder option should be retained if user navigate to some other page and return back to Media Manager view
 	Given Driver views download section in Media Manager Page
 	When Driver navigate to some other page and return back to Media Manager page
 	Then Driver has access to Download section in Media Manager
 
+#TC-2277
 Scenario: Verify that, folder selection will be retained if driver sign out and sign in to the application
 	Given Driver views Pnet Picture section in Media Manager Page
 	And Driver navigate to home Page from Media Manager Page
 	And Driver log out of the application
 	And Driver login to the application
-	When Driver is in Media Manager Page 
+	When Driver is in Media Manager Page
 	Then Driver has access to Pnet Picture section in Media Manager Page
-	
+
 #TC-939
 Scenario: Verify that, user can change the folder selection from Pictures to Downloads in Media Manager Page
 	Given Driver views Pnet Picture section in Media Manager Page
 	When Driver change folder selection to Downloads
 	Then Driver has access to Download section in Media Manager
-	 
+
 #TC-939
 Scenario: Verify that, user can change the folder selection from Downloads to Pictures in Media Manager Page
 	Given Driver views download section in Media Manager Page
@@ -65,24 +67,27 @@ Scenario: Verify that, driver can delete multiple media from the Pnet Picture fo
 	When Driver tries to delete multiple files
 	Then Selected multiple media got deleted successfully
 
+#TC-2278
 Scenario: Verify that, driver can cancel delete operation before hitting delete button
 	Given There are existing pictures in the Pnet Picture folder section
 	When Driver select multiple files to delete
 	And Driver cancel delete operation
 	Then Delete operation should be cancelled and selection will be cancelled
 
+#TC-2279
 Scenario: Verify that, driver can cancel delete operation after hitting delete button
 	Given There are existing pictures in the Pnet Picture folder section
 	When Driver select multiple files to delete
 	And Driver hits delete button for deleting a media
 	And Driver cancel delete operation by clicking cancel in the pop up
 	Then Delete operation should be cancelled and selection will be cancelled
-	
+
+#TC-2280
 Scenario: Verify that, driver can delete all files in the Pnet Picture folder in Media Manager
 	Given There are existing pictures in the Pnet Picture folder section
 	When Driver tries to delete all files in the Pnet Picture section
 	Then All files should get deleted successfully
-	
+
 #TC-1056
 Scenario: Verify that, media which is unchecked by driver did not get deleted
 	Given There are existing pictures in the Pnet Picture folder section
