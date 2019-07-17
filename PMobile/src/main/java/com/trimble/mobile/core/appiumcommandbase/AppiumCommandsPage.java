@@ -20,6 +20,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.collect.Ordering;
+import com.trimble.mobile.core.filereader.PropertyFileReader;
+
 import com.trimble.mobile.core.enums.SortingType;
 
 import io.appium.java_client.AppiumDriver;
@@ -40,16 +42,38 @@ public class AppiumCommandsPage {
 
 	public WebDriverWait wait;
 	
+
+	private String adbPath;
+  
+	public String getAdbPath() {
+		return adbPath;
+	}
+  
 	private final int appiumDriverWait = 60;
 
+
+	public void setAdbPath(String adbPath) {
+		this.adbPath = adbPath;
+	}
+	
+	/**
+	 * Reads the properties from the configuration file
+	 */
+	private void initialize() {
+		PropertyFileReader handler = new PropertyFileReader(
+				"configurations/configuration.properties");
+		setAdbPath(handler.getproperty("ADB_PATH"));
+	
+	}
 	/**
 	 * @param driver
 	 */
 	public AppiumCommandsPage(AppiumDriver<WebElement> driver) {
+		initialize();
 		this.appiumDriver = driver;
 		wait = new WebDriverWait(driver, appiumDriverWait);
 	}
-
+	
 	/**
 	 * @param Webelement
 	 */
@@ -117,6 +141,55 @@ public class AppiumCommandsPage {
 		return webelement.isDisplayed();
 	}
 	
+	
+	/**
+	 * Closes the Application under test
+	 */
+	public void closeApplication() {
+		try {
+			appiumDriver.closeApp();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Launches the Application under test
+	 */
+	public void launchApplication() {
+        try {
+        	
+        	appiumDriver.launchApp();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @param webelement
+	 * @return true or false
+	 */
+	public boolean verifyElementNotPresent(WebElement webelement) {
+		boolean isElementPresent = false ;
+	    try {
+	        webelement.isDisplayed();
+	        isElementPresent = true;
+	    } catch (org.openqa.selenium.NoSuchElementException e) {
+	    	isElementPresent = false;
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    return isElementPresent;
+	}
+	
+	
+	public Dimension getElementSize(WebElement webelement) {
+	
+	     Dimension elementSize = webelement.getSize();
+		 return elementSize;
+	}
+	
 	/**
 	 * @param webelement
 	 * @return true or false
@@ -131,6 +204,7 @@ public class AppiumCommandsPage {
 	 */
 	public boolean verifyElementSelected(WebElement webelement) {
 		return webelement.isSelected();
+		
 	}
 	
 
@@ -141,7 +215,7 @@ public class AppiumCommandsPage {
 	public boolean checkKeyboardDisplayed() throws IOException {
 		boolean mInputShown = false;
 		try {
-			String cmd = "adb shell dumpsys input_method | grep mInputShown";
+			String cmd = getAdbPath()+" "+"adb shell dumpsys input_method | grep mInputShown";
 			Process p = Runtime.getRuntime().exec(cmd);
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(p.getInputStream()));
@@ -172,7 +246,7 @@ public class AppiumCommandsPage {
 	public void adbKeyEvents(int keyevent) {
 
 		try {
-			String cmd = "adb shell input keyevent" + " " + keyevent;
+			String cmd = getAdbPath()+" "+"adb shell input keyevent" + " " + keyevent;
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -272,7 +346,7 @@ public class AppiumCommandsPage {
 	public void LaunchAndroidApplication(String activity) {
 		String cmd;
 		try {
-			cmd = "adb shell am start -n" + " " + activity;
+			cmd = getAdbPath()+" "+"adb shell am start -n" + " " + activity;
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -284,10 +358,10 @@ public class AppiumCommandsPage {
 	 * @param activity
 	 *            Kill an application by passing the activity
 	 */
-	public void KillAndroidApplication(String command, String activity) {
+	public void KillAndroidApplication(String activity) {
 		String cmd;
 		try {
-			cmd = "adb shell am force-stop" + " " + activity;
+			cmd = getAdbPath()+" "+"adb shell am force-stop" + " " + activity;
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -449,7 +523,7 @@ So the second part is the one which we need to parse to get the count. So, alway
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void reLaunchApp() {
 		appiumDriver.launchApp();
 	}

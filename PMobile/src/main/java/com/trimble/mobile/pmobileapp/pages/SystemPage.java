@@ -6,11 +6,21 @@ import org.openqa.selenium.support.PageFactory;
 import com.trimble.mobile.core.appiumcommandbase.AppiumCommandsPage;
 import com.trimble.mobile.core.enums.Fields;
 
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 public class SystemPage extends AppiumCommandsPage{
-    
+
+    @FindBy(id = "pnetpage_homebutton_imagebutton")
+	  private WebElement peoplenetLogo;
+		
+	  @FindBy(id = "pnetpage_titletext_textview")
+	  private WebElement systemText;
+	
+	  @FindBy(id = "pnetpage_backbutton_imagebutton")
+	  private WebElement backArrow;	
+  
     @FindBy(xpath="//*[@text='Settings']")
     private WebElement settingsButton;
     
@@ -39,6 +49,7 @@ public class SystemPage extends AppiumCommandsPage{
     private WebElement fleetHomeSetupButton;
     
     @FindBy(xpath="//*[@text='Shutter']")
+
 	private WebElement shutterButton;
     
     private final int sleepTime = 500;

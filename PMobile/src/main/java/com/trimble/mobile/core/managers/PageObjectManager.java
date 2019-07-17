@@ -1,9 +1,7 @@
 package com.trimble.mobile.core.managers;
 
 import org.openqa.selenium.WebElement;
-
 import com.trimble.mobile.pmobileapp.pages.*;
-
 import io.appium.java_client.AppiumDriver;
 
 public class PageObjectManager {
@@ -24,6 +22,10 @@ public class PageObjectManager {
 	private DriverPage driverPage;
 	private LogoutPage logoutPage;
 	private SystemPage systemPage;
+
+	private SettingsPage settingsPage;
+
+
 	private MediaManagerPage mediaManagerPage;
 	
 	/**
@@ -54,13 +56,17 @@ public class PageObjectManager {
 	public LogoutPage getLogoutPage() {
 		return (logoutPage == null) ? logoutPage = new LogoutPage(driver) : logoutPage;
 	}
+  
+	public SystemPage getSystemPage() {
+		return (systemPage == null) ? systemPage = new SystemPage(driver) :  systemPage;
+	}
 	
-	public MediaManagerPage getMediaManagerPage() {
-		return (mediaManagerPage == null) ? mediaManagerPage = new MediaManagerPage(driver) : mediaManagerPage;
+	public SettingsPage getSettingsPage() {
+		return (settingsPage == null) ? settingsPage = new SettingsPage(driver) :  settingsPage;
 	}
 
-	public SystemPage getSystemPage() {
-		return (systemPage == null) ? systemPage = new SystemPage(driver) : systemPage;
+	public MediaManagerPage getMediaManagerPage() {
+		return (mediaManagerPage == null) ? mediaManagerPage = new MediaManagerPage(driver) : mediaManagerPage;
 	}
 
 }
