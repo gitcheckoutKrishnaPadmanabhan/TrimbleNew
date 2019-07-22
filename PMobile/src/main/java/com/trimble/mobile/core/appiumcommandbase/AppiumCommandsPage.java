@@ -3,7 +3,6 @@ package com.trimble.mobile.core.appiumcommandbase;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.PointOption.point;
 import static java.time.Duration.ofSeconds;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,18 +11,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.google.common.collect.Ordering;
 import com.trimble.mobile.core.filereader.PropertyFileReader;
-
 import com.trimble.mobile.core.enums.SortingType;
-
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
@@ -41,28 +36,15 @@ public class AppiumCommandsPage {
 	public IOSDriver<WebElement> iOSDriver;
 
 	public WebDriverWait wait;
-	
 
-	private String adbPath;
-  
-	public String getAdbPath() {
-		return adbPath;
-	}
-  
 	private final int appiumDriverWait = 60;
 
-
-	public void setAdbPath(String adbPath) {
-		this.adbPath = adbPath;
-	}
-	
 	/**
 	 * Reads the properties from the configuration file
 	 */
 	private void initialize() {
 		PropertyFileReader handler = new PropertyFileReader(
 				"configurations/configuration.properties");
-		setAdbPath(handler.getproperty("ADB_PATH"));
 	
 	}
 	/**
@@ -75,7 +57,7 @@ public class AppiumCommandsPage {
 	}
 	
 	/**
-	 * @param Webelement
+	 * @param webelement
 	 */
 	public void waitForElementVisibility(WebElement webelement) {
 		try {
@@ -86,7 +68,7 @@ public class AppiumCommandsPage {
 	}
 
 	/**
-	 * @param Webelement
+	 * @param webelement
 	 */
 	public void waitForElementInVisibility(WebElement webelement) {
 		try {
@@ -98,7 +80,7 @@ public class AppiumCommandsPage {
 	}
 
 	/**
-	 * @param Webelement
+	 * @param webelement
 	 */
 	public void waitForElementToBeClickable(WebElement webelement) {
 		try {
@@ -110,7 +92,7 @@ public class AppiumCommandsPage {
 	}
 
 	/**
-	 * @param element
+	 * @param webelement
 	 *            clicks the element
 	 */
 	public void clickElement(WebElement webelement) {
@@ -215,7 +197,7 @@ public class AppiumCommandsPage {
 	public boolean checkKeyboardDisplayed() throws IOException {
 		boolean mInputShown = false;
 		try {
-			String cmd = getAdbPath()+" "+"adb shell dumpsys input_method | grep mInputShown";
+			String cmd = "adb shell dumpsys input_method | grep mInputShown";
 			Process p = Runtime.getRuntime().exec(cmd);
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(p.getInputStream()));
@@ -246,7 +228,7 @@ public class AppiumCommandsPage {
 	public void adbKeyEvents(int keyevent) {
 
 		try {
-			String cmd = getAdbPath()+" "+"adb shell input keyevent" + " " + keyevent;
+			String cmd ="adb shell input keyevent" + " " + keyevent;
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -255,25 +237,18 @@ public class AppiumCommandsPage {
 
 	/**
 	 * Finding the duplicate elements in the list
-	 * 
-	 * @param mono
-	 * @param content
-	 * @param dosechang
-	 * @param enteral
+	 *
+	 * @param listWithDuplicates
 	 */
-	public List<String> findDuplicates(List<String> mono) {
+	public List<String> findDuplicates(List<String> listWithDuplicates) {
 
 		List<String> duplicate = new ArrayList<String>();
 		Set<String> s = new HashSet<String>();
 		try {
-			if (mono.size() > 0) {
-				for (String content : mono) {
-					if (s.add(content) == false) {
-						int i = 1;
+			if (listWithDuplicates.size() > 0) {
+				for (String content : listWithDuplicates) {
+					if (!s.add(content)) {
 						duplicate.add(content);
-						System.out.println(
-								"List of duplicate elements is" + i + content);
-						i++;
 					}
 				}
 			}
@@ -289,8 +264,8 @@ public class AppiumCommandsPage {
 	 * 
 	 * @param property
 	 *            the property of the element
-	 * @param byLocator
-	 *            the by locator
+	 * @param webelement
+	 *            the webelement
 	 * @return value of the property
 	 */
 	public String getElementPropertyToString(String property,
@@ -304,7 +279,7 @@ public class AppiumCommandsPage {
 	}
 
 	/**
-	 * @param sorted
+	 * @param ListToSort
 	 * @return true if the list is sorted
 	 * @return false if the list is not sorted
 	 */
@@ -346,7 +321,7 @@ public class AppiumCommandsPage {
 	public void LaunchAndroidApplication(String activity) {
 		String cmd;
 		try {
-			cmd = getAdbPath()+" "+"adb shell am start -n" + " " + activity;
+			cmd = "adb shell am start -n" + " " + activity;
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -361,7 +336,7 @@ public class AppiumCommandsPage {
 	public void KillAndroidApplication(String activity) {
 		String cmd;
 		try {
-			cmd = getAdbPath()+" "+"adb shell am force-stop" + " " + activity;
+			cmd = "adb shell am force-stop" + " " + activity;
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -377,7 +352,7 @@ public class AppiumCommandsPage {
 
 	/**
 	 * 
-	 * @param Webelement
+	 * @param webelement
 	 *            the Webelement
 	 * @param text
 	 *            the text
@@ -389,14 +364,14 @@ public class AppiumCommandsPage {
 	}
 	
 	/**
-	 * @param Webelement 
+	 * @param webelement
 	 */
 	public void clearText(WebElement webelement) {
 		webelement.clear();
 	}
 
 	/**
-	 * @param byLocator
+	 * @param webelement
 	 * @returns the list count of the elements
 	 * we need to get the count of Web element (XPath) =  “//*[@text='API Demos']* “ 
 After converting it as a string, value stored in the String xPath = “Located by By.xpath: //*[@text='API Demos’]”
@@ -529,7 +504,7 @@ So the second part is the one which we need to parse to get the count. So, alway
 	}
 	
 	/**
-	 * @param element
+	 * @param webelement
 	 *            Long Press element
 	 */
 	@SuppressWarnings("rawtypes")
