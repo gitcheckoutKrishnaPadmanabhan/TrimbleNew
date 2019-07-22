@@ -1,9 +1,12 @@
 Feature: PMobile Settings feature
          As a driver i want to change the settings in the pMobile application
-	
+
+  Background: Driver Navigate to Settings Page
+    Given Driver login to the application
+    And Driver is in Settings Screen
+
  Scenario: Backlight Auto Dim setting to Suspend Off
-    Given I am on the Settings screen
-    And   I tap the Volume/Backlight button
+    Given I tap the Volume/Backlight button
     When I set the Backlight Auto Dim to OFF
     Then I am able to slide the Backlight seekbar
     

@@ -1,11 +1,9 @@
 package com.trimble.mobile.pmobileapp.stepdefinitions;
 
 import com.trimble.mobile.core.enums.Fields;
+import com.trimble.mobile.pmobileapp.pages.*;
 import org.testng.Assert;
 import com.trimble.mobile.core.testcontext.TestContext;
-import com.trimble.mobile.pmobileapp.pages.HomePage;
-import com.trimble.mobile.pmobileapp.pages.SettingsPage;
-import com.trimble.mobile.pmobileapp.pages.SystemPage;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -17,18 +15,36 @@ public class SettingsTest {
 	HomePage homePage;
 	SystemPage systemPage;
 	SettingsPage settingsPage;
+	ApplicationToolBar toolBar;
 
 	public SettingsTest(TestContext context) {
 		testContext = context;
 		homePage =  testContext.getPageObjectManager().getHomePage();
 		systemPage = testContext.getPageObjectManager().getSystemPage();
 		settingsPage = testContext.getPageObjectManager().getSettingsPage();
+		toolBar = testContext.getPageObjectManager().getToolBar();
 	}
+
+	@Given("Driver is in Settings Screen")
+	public void driver_is_in_Settings_Screen() {
+		toolBar.waitForPageTitle();
+		if(!toolBar.getPageTitle().equalsIgnoreCase("Settings")){
+			toolBar.initialize();
+			toolBar.waitTillPageTitleDisplayed("Home");
+			homePage.clickSubSection(Fields.System);
+			toolBar.waitTillPageTitleDisplayed("System");
+			systemPage.clickSubSection(Fields.Settings);
+			toolBar.waitTillPageTitleDisplayed("Settings");
+		}
+	}
+
 
 	@Given("^I am on the Settings screen$")
 	public void i_am_on_the_settings_screen() throws Throwable {
+		homePage.waitTillHomePageLoaded();
 		homePage.clickSubSection(Fields.System);
 		systemPage.clickSettings();
+		toolBar.waitTillPageTitleDisplayed("Settings");
 	}
 
 	@And("^I tap the Volume/Backlight button$")
@@ -67,6 +83,7 @@ public class SettingsTest {
 	 @And("^I restart the pMobile application$")
 	 public void i_restart_the_pmobile_application() throws Throwable {
 		 settingsPage.restartApp();
+		 toolBar.waitTillPageTitleDisplayed("Home");
 	 }
 	
 	@Then("^I see the backlight is set to same 100$")

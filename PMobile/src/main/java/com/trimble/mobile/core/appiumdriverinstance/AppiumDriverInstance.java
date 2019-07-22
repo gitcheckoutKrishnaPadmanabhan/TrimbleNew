@@ -97,7 +97,7 @@ public class AppiumDriverInstance {
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,
 				"Android");
 		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,
-				"uiautomator1");
+				"uiautomator2");
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 5);
 		capabilities.setCapability("skipDeviceInitialization", true);
@@ -129,7 +129,7 @@ public class AppiumDriverInstance {
 		try {
 			
 			if ("Android".equalsIgnoreCase(getPlatform())) {
-				appiumDriver = new AppiumDriver<WebElement>(appiumServer.service.getUrl(), this.generateAndroidCapabilities());
+				appiumDriver = new AppiumDriver<WebElement>( this.generateAndroidCapabilities());
 			} else if ("iOS".equalsIgnoreCase(getPlatform())) {
 				appiumDriver = new AppiumDriver<WebElement>(appiumServer.service.getUrl(), this.generateiOSCapabilities());
 			} else {

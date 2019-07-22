@@ -537,7 +537,7 @@ So the second part is the one which we need to parse to get the count. So, alway
 		TouchAction action = new TouchAction(appiumDriver);
 		action.longPress(new LongPressOptions()
 				.withElement(ElementOption.element(webelement))
-				.withDuration(Duration.ofMillis(10)))
+				.withDuration(Duration.ofMillis(1000)))
 				.release()
 				.perform();
 
