@@ -31,7 +31,6 @@ public class MediaManagerTest {
 	
 	@Given("Driver is in Media Manager Page")
 	public void driver_is_in_Media_Manager_Page() throws InterruptedException {
-		toolBar.waitForPageTitle();
 		if(toolBar.getPageTitle().equalsIgnoreCase("Media Manager - Downloads")||(toolBar.getPageTitle().equalsIgnoreCase("Media Manager - Pictures"))
 				||  mediaManager.isSelectFolderPathPopUpDisplayed()==true){
 
@@ -390,5 +389,21 @@ public class MediaManagerTest {
 	public void driver_has_access_to_Pnet_Picture_section_in_Media_Manager_Page() {
 		toolBar.waitForPageTitle();
 		Assert.assertEquals(toolBar.getPageTitle(), "Media Manager - Pictures");
+	}
+
+	@When("Driver taken multiple picture and saved media using camera menu")
+	public void driver_taken_multiple_picture_and_saved_media_using_camera_menu() throws InterruptedException {
+		homePage.clickSubSection(Fields.System);
+		toolBar.waitTillPageTitleDisplayed("System");
+		systemPage.clickSubSection(Fields.Camera);
+		systemPage.takeMultiplePicture();
+	}
+
+	@Then("Multiple pictures taken should get updated in picture list view")
+	public void multiple_pictures_taken_should_get_updated_in_picture_list_view() {
+		int count = (int) testContext.getScenarioContext().getContext("Count");
+		int count2 = mediaManager.getListCount();
+		Assert.assertNotEquals(count, count2);
+		Assert.assertEquals(count+3, count2);
 	}
 }
