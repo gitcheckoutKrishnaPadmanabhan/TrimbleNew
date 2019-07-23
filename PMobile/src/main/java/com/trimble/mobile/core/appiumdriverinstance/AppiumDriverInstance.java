@@ -129,7 +129,7 @@ public class AppiumDriverInstance {
 		try {
 			
 			if ("Android".equalsIgnoreCase(getPlatform())) {
-				appiumDriver = new AppiumDriver<WebElement>( this.generateAndroidCapabilities());
+				appiumDriver = new AppiumDriver<WebElement>( appiumServer.service.getUrl(),this.generateAndroidCapabilities());
 			} else if ("iOS".equalsIgnoreCase(getPlatform())) {
 				appiumDriver = new AppiumDriver<WebElement>(appiumServer.service.getUrl(), this.generateiOSCapabilities());
 			} else {
