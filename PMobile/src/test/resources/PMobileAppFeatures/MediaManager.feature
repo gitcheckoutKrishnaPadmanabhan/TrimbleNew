@@ -15,6 +15,14 @@ Scenario: Verify that, PNet Pictures displays the pictures taken by the system c
 	And Driver navigate back to picture view in Media Manager Page
 	Then Newly taken picture should get updated in picture list view
 
+ #TC-1017,TC-1018,TC-1020,TC-1021,TC-1019
+ Scenario: Verify that, Driver can take multiple pictures using camera menu and those pictures should get listed in Media Manager Pictures view
+	 Given Driver views Pnet Picture section in Media Manager Page
+	 And Driver navigate to home Page from Media Manager Page
+	 When Driver taken multiple picture and saved media using camera menu
+	 And Driver navigate back to picture view in Media Manager Page
+	 Then Multiple pictures taken should get updated in picture list view
+
 #TC-935,TC-940
 Scenario: Verify that, user displayed with an option to view Pnet Pictures or Downloads after reboot
 	Given Driver views download section in Media Manager Page
