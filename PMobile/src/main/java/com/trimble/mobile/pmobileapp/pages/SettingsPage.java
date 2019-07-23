@@ -2,14 +2,12 @@ package com.trimble.mobile.pmobileapp.pages;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
 import com.trimble.mobile.core.appiumcommandbase.AppiumCommandsPage;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
@@ -174,6 +172,9 @@ public class SettingsPage extends AppiumCommandsPage {
 	@FindBy(xpath = "//*[@class='android.widget.LinearLayout' and @index='3']//*[@class='android.widget.RelativeLayout' and @index='0']//*[@class='android.widget.TextView' and @index='1']")
 	private WebElement getDeviceTime;
 
+	@FindBy(xpath="//*[@text='Settings']")
+	private WebElement settingsButton;
+
 	public SettingsPage(AppiumDriver<WebElement> driver) {
 		super(driver);
 		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
@@ -254,7 +255,7 @@ public class SettingsPage extends AppiumCommandsPage {
 		if (getStatus.equalsIgnoreCase("OFF")) {
 			clickElement(backLightOnOffButton);
 		}
-		isEnabled = Boolean.parseBoolean(getElementPropertyToString("checked", backlightSeekbar));
+		isEnabled = Boolean.parseBoolean(getElementPropertyToString("enabled", backlightSeekbar));
 		return isEnabled;
 		// Should return true
 	}
@@ -265,7 +266,7 @@ public class SettingsPage extends AppiumCommandsPage {
 		if (getStatus.equalsIgnoreCase("ON")) {
 			clickElement(backLightOnOffButton);
 		}
-		isEnabled = Boolean.parseBoolean(getElementPropertyToString("checked", backlightSeekbar));
+		isEnabled = Boolean.parseBoolean(getElementPropertyToString("enabled", backlightSeekbar));
 		return isEnabled;
 		// Should return false
 	}
@@ -401,6 +402,23 @@ public class SettingsPage extends AppiumCommandsPage {
 		}
 	}
 
+	public void checkFontSelected(){
+
+		String isSelected = getElementPropertyToString("checked", normalRadioButton);
+
+		if(isSelected.equalsIgnoreCase("false")){
+			clickElement(normalRadioButton);
+			tapAlertPopUp("YES");
+			waitForElementVisibility(systemButton);
+			clickElement(systemButton);
+			waitForElementVisibility(settingsButton);
+			clickElement(settingsButton);
+			clickElement(fontSizeButton);
+		}
+
+
+	}
+
 	public void verifySortMessageSection() {
 
 		verifyElementPresent(sortMessagesButton);
@@ -466,9 +484,6 @@ public class SettingsPage extends AppiumCommandsPage {
 		verifyElementPresent(offRadioButton);
 	}
 
-	
-	
-	
 	public void SelectDateTimeFormat(String dateTimeFormat) {
 		
 		switch (dateTimeFormat) {

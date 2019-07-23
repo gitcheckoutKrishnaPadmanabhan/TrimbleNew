@@ -38,7 +38,6 @@ public class SettingsTest {
 		}
 	}
 
-
 	@Given("^Driver is on the Settings screen$")
 	public void driver_is_on_the_settings_screen() throws Throwable {
 		homePage.waitTillHomePageLoaded();
@@ -56,7 +55,7 @@ public class SettingsTest {
 
 	@When("^Driver sets the Backlight Auto Dim to OFF$")
 	public void driver_sets_the_backlight_auto_dim_to_off() throws Throwable {
-		Assert.assertEquals(settingsPage.turnOffBackLight(), false);
+		Assert.assertEquals(settingsPage.turnOffBackLight(), true);
 	}
 
 	@Then("^Driver is not able to slide the Backlight seekbar$")
@@ -66,7 +65,7 @@ public class SettingsTest {
 
 	@When("^Driver sets the Backlight Auto Dim to ON$")
 	public void driver_sets_the_backlight_auto_dim_to_on() throws Throwable {
-		Assert.assertEquals(settingsPage.turnOnBackLight(), true);
+		Assert.assertEquals(settingsPage.turnOnBackLight(), false);
 	}
 
 	@Then("^Driver is able to slide the Backlight seekbar$")
@@ -155,7 +154,13 @@ public class SettingsTest {
 		settingsPage.clickSubSections("fontSizeButton");
 		settingsPage.verifyFontSection();
 	}
-	
+
+
+	@Given("^Driver sees that the normal radio button is selected$")
+	public void driver_sees_that_the_normal_radio_button_is_selected() throws Throwable {
+		settingsPage.checkFontSelected();
+	}
+
 	@And("^Driver checks the font are in normal size$")
 	public void driver_checks_the_font_are_in_normal_size() throws Throwable {
 		testContext.getScenarioContext().setContext("normalFontSize", settingsPage.getFontSize());
@@ -176,7 +181,6 @@ public class SettingsTest {
 			throws Throwable {
 		settingsPage.tapAlertPopUp("YES");
 		settingsPage.waitForDashboardScreen();
-		
 	}
 	
 	@And("^Driver checks the font size is larger$")
