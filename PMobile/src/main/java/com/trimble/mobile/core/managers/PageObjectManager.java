@@ -22,7 +22,7 @@ public class PageObjectManager {
 	private DriverPage driverPage;
 	private LogoutPage logoutPage;
 	private SystemPage systemPage;
-
+	private Messaging_AddressBookPage messagingPage;
 	private SettingsPage settingsPage;
 
 
@@ -67,6 +67,10 @@ public class PageObjectManager {
 
 	public MediaManagerPage getMediaManagerPage() {
 		return (mediaManagerPage == null) ? mediaManagerPage = new MediaManagerPage(driver) : mediaManagerPage;
+	}
+
+	public Messaging_AddressBookPage getMessagningPage() {
+		return (messagingPage == null) ? messagingPage = new Messaging_AddressBookPage(driver) : messagingPage;
 	}
 
 }
