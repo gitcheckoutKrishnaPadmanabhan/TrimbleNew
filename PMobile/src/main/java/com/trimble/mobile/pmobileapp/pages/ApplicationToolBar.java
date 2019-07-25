@@ -63,7 +63,9 @@ public class ApplicationToolBar extends AppiumCommandsPage {
 			case "Media Manager - Pictures":
 				Back(2);
 				break;
-				
+			case "Settings":
+				Back(2);
+				break;
 		}
 	}
 

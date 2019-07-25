@@ -382,7 +382,7 @@ public class MediaManagerTest {
 	
 	@When("Driver cancel delete operation by clicking cancel in the pop up")
 	public void driver_cancel_delete_operation_by_clicking_cancel_in_the_pop_up() {
-		mediaManager.waitForFolderAlertTitle();
+		mediaManager.waitForDeleteAlertTitle();
 		mediaManager.selectMenuFromDeleteAlert(Fields.Cancel);
 	}
 	

@@ -196,7 +196,11 @@ public class MediaManagerPage extends AppiumCommandsPage {
 	public void clickCancel() {
 		clickElement(cancelBtn);
 	}
-	
+
+	public void waitForDeleteAlertTitle() {
+		waitForElementVisibility(deleteAlerttitle);
+	}
+
 	public void selectMenuFromDeleteAlert(Fields menu) {
 		switch(menu) {
 			case Yes:
