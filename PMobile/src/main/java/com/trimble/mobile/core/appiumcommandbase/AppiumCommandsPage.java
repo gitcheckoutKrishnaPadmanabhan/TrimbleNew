@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
@@ -512,9 +515,10 @@ So the second part is the one which we need to parse to get the count. So, alway
 		TouchAction action = new TouchAction(appiumDriver);
 		action.longPress(new LongPressOptions()
 				.withElement(ElementOption.element(webelement))
-				.withDuration(Duration.ofMillis(1000)))
+				.withDuration(Duration.ofMillis(5000)))
 				.release()
 				.perform();
 
 	}
+
 }
