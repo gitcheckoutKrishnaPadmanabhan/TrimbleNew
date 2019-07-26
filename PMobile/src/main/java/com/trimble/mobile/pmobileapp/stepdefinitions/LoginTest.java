@@ -1,5 +1,6 @@
 package com.trimble.mobile.pmobileapp.stepdefinitions;
 
+import com.trimble.mobile.core.testData.TestData;
 import org.testng.Assert;
 
 import com.trimble.mobile.core.testcontext.TestContext;
@@ -8,16 +9,17 @@ import com.trimble.mobile.pmobileapp.pages.LoginPage;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
-
 public class LoginTest {
 	TestContext testContext;
 	LoginPage loginPage;
 	ApplicationToolBar toolBar;
+	TestData testData;
 
 	public LoginTest(TestContext context) {
 		testContext = context;
 		loginPage = testContext.getPageObjectManager().getSignInPage();
 		toolBar = testContext.getPageObjectManager().getToolBar();
+		testData = testContext.getJsonFileReader().gettestDataByName();
 	}
 	
 
@@ -25,7 +27,7 @@ public class LoginTest {
 	public void driver_login_to_the_application() {
 		if(toolBar.getPageTitle().equalsIgnoreCase("Login")) {
 			loginPage.waitTillLoginPageLoaded();
-			loginPage.login("anitha", "anitha");
+			loginPage.login(testData.driverid,testData.driverpwd);
 			loginPage.waitTillDriverLogSheetLoaded();
 			toolBar.waitTillPageTitleDisplayed("Home");
 		}
