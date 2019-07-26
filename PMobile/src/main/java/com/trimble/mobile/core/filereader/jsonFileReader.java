@@ -48,7 +48,7 @@ public class jsonFileReader {
         Gson gson = new Gson();
         BufferedReader bufferedReader = null;
         try {
-            bufferedReader = new BufferedReader(new FileReader(getTestDataPath()));
+            bufferedReader = new BufferedReader(new FileReader(System.getProperty("user.dir")+getTestDataPath()));
             TestData[] testData = gson.fromJson(bufferedReader, TestData[].class);
             return Arrays.asList(testData);
 
