@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
         plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
         features = {"src/test/resources/PMobileAppFeatures/Messaging_AddressBook.feature"},
         glue = {"com.trimble.mobile.pmobileapp.stepdefinitions"},
-        tags = {"@BVT"},
         monochrome = true,
         dryRun = false
 
