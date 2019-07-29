@@ -1,4 +1,7 @@
-Feature: PMobile application Messaging feature
+Feature: PMobile application Messaging - Address Book feature
+  In order to verify Address Book
+  As a driver
+  I want to access the Messaging Address Book functionality
 
   Background: Driver Navigate to Messaging Page
     Given Driver login to the application
