@@ -15,7 +15,7 @@ Feature: PMobile application Messaging - Address Book feature
 
     Examples:
       | adminUsername |
-      | 57            |
+      | Administrator |
 
   #TC-501
   Scenario Outline: Message text remains after navigating to Address book
@@ -26,7 +26,7 @@ Feature: PMobile application Messaging - Address Book feature
 
     Examples:
       | emailType | adminUsername | messageDescription |
-      | Standard  | 57            | automation testing |
+      | Standard  | Administrator | automation testing |
 
   #TC-598
   Scenario Outline: Compose Personal Email - Max Recipients
@@ -51,7 +51,7 @@ Feature: PMobile application Messaging - Address Book feature
 
     Examples:
       | emailType | adminUsername | messageDescription | Username |
-      | Personal  | 57            | automation testing | automate |
+      | Personal  | Administrator | automation testing | automationuser |
 
   #TC-503
   Scenario Outline: Personal Email message and addresses are displayed in order in the Sent Mailbox
@@ -65,7 +65,7 @@ Feature: PMobile application Messaging - Address Book feature
 
     Examples:
       | emailType | adminUsername | messageDescription | Username |
-      | Personal  | 57            | automation testing | automate |
+      | Personal  | Administrator | automation testing | automationuser |
 
   #TC-595
   Scenario Outline: Editing a personal contact will update the address book

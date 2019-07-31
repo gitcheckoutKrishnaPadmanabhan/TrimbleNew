@@ -193,13 +193,13 @@ public class Messaging_AddressBookPage extends AppiumCommandsPage {
         return getCount(addressBookContactEmailChecked);
     }
 
-    public String getSelectedContactList() {
+    public String getSelectedContactList(int count) {
         String xpath = addressBookContactName.toString();
         String[] test = xpath.split(": ");
         xpath = test[1];
         List<WebElement> dropList = appiumDriver.findElements(By.xpath(xpath));
         String temp = "";
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= count; i++) {
             WebElement listItem = (WebElement) dropList.get(i);
             String currentValue = listItem.getText();
             temp = temp + currentValue.trim() + "; ";

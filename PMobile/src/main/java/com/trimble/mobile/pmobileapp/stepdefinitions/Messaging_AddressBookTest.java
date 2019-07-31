@@ -154,7 +154,7 @@ public class Messaging_AddressBookTest {
     @Then("Verify the check mark shown for the contacts selected and added as recipients")
     public void verify_the_check_mark_shown_for_the_contacts_selected_and_added_as_recipients() {
         Assert.assertEquals(messagingPage.getSelectedContactCount(), 5);
-        testContext.getScenarioContext().setContext("selectedContact", messagingPage.getSelectedContactList().trim());
+        testContext.getScenarioContext().setContext("selectedContact", messagingPage.getSelectedContactList(messagingPage.getSelectedContactCount()).trim());
         messagingPage.clickAcceptButton();
         assertEquals(testContext.getScenarioContext().getContext("selectedContact"), messagingPage.getRecipientList());
     }
