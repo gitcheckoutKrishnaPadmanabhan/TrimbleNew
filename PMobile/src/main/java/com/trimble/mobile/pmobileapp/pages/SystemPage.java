@@ -54,6 +54,7 @@ public class SystemPage extends AppiumCommandsPage {
 
     private final int sleepTime = 2000;
     private final int Back = 4;
+    private final int PictureCount = 3;
 
     public SystemPage(AppiumDriver<WebElement> driver) {
         super(driver);
@@ -106,7 +107,7 @@ public class SystemPage extends AppiumCommandsPage {
     public void takeMultiplePicture() throws InterruptedException {
         waitForElementVisibility(shutterButton);
         Thread.sleep(sleepTime);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < PictureCount; i++) {
             clickElement(shutterButton);
             Thread.sleep(sleepTime);
         }
