@@ -362,6 +362,7 @@ public class AppiumCommandsPage {
 	 */
 	public void enterText(WebElement webelement, String text) {
 		clickElement(webelement);
+		clearText(webelement);
 		webelement.sendKeys(text);
 		hideKeyboard();
 	}
