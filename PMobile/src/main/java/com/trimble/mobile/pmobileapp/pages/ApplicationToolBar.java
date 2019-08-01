@@ -69,6 +69,9 @@ public class ApplicationToolBar extends AppiumCommandsPage {
 			case "Messaging - Inbox":
 				Back(1);
 				break;
+			case "Settings":
+				Back(2);
+				break;
 		}
 	}
 

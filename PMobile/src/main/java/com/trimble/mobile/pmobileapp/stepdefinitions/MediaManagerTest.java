@@ -382,7 +382,7 @@ public class MediaManagerTest {
 	
 	@When("Driver cancel delete operation by clicking cancel in the pop up")
 	public void driver_cancel_delete_operation_by_clicking_cancel_in_the_pop_up() {
-		mediaManager.waitForFolderAlertTitle();
+		mediaManager.waitForDeleteAlertTitle();
 		mediaManager.selectMenuFromDeleteAlert(Fields.Cancel);
 	}
 	
@@ -391,4 +391,21 @@ public class MediaManagerTest {
 		toolBar.waitForPageTitle();
 		Assert.assertEquals(toolBar.getPageTitle(), "Media Manager - Pictures");
 	}
+
+	@When("Driver taken multiple picture and saved media using camera menu")
+	public void driver_taken_multiple_picture_and_saved_media_using_camera_menu() throws InterruptedException {
+		homePage.clickSubSection(Fields.System);
+		toolBar.waitTillPageTitleDisplayed("System");
+		systemPage.clickSubSection(Fields.Camera);
+		systemPage.takeMultiplePicture();
+	}
+
+	@Then("Multiple pictures taken should get updated in picture list view")
+	public void multiple_pictures_taken_should_get_updated_in_picture_list_view() {
+		int count = (int) testContext.getScenarioContext().getContext("Count");
+		int count2 = mediaManager.getListCount();
+		Assert.assertNotEquals(count, count2);
+		Assert.assertEquals(count2, count+3);
+	}
+
 }

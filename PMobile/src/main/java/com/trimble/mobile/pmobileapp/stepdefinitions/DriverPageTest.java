@@ -35,8 +35,8 @@ public class DriverPageTest {
 		}
 	}
 	
-	@When("Driver with driverid {string} tries to log out of the application")
-	public void driver_with_driverid_tries_to_log_out_of_the_application(String driverid) {
+	@When("Driver tries to log out of the application")
+	public void driver_with_driverid_tries_to_log_out_of_the_application() {
 		homePage.clickSubSection(Fields.Driver);
 		toolBar.waitTillPageTitleDisplayed("Driver");
 		driverPage.clickSubSection(Fields.Logout);

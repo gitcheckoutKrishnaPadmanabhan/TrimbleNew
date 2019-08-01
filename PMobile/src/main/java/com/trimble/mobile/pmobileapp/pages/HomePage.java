@@ -6,10 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
 import com.trimble.mobile.core.appiumcommandbase.AppiumCommandsPage;
 import com.trimble.mobile.core.enums.Fields;
-
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
@@ -72,22 +70,7 @@ public class HomePage extends AppiumCommandsPage {
 	public void closeLoginAlert() {
 		clickElement(Okbtn);
 	}
-	
-	public int getModuleIndex(String module) {
-		int i = 0;
-		for(@SuppressWarnings("unused") WebElement el:moduleMenu) {
-			if(!module.equals(((WebElement) moduleMenu.get(i)).getText())){
-				i++;
-			}
-		}
-		return i;
-	}
-	
-	public void selectModule(String module) {
-		int index = getModuleIndex(module);
-		clickElement(moduleMenu.get(index));
-	}
-	
+
 	public void clickSubSection(Fields menu) {
 		switch(menu) {
 			case Messaging:
