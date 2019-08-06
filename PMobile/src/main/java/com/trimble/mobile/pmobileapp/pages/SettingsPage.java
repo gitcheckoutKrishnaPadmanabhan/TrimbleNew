@@ -179,6 +179,8 @@ public class SettingsPage extends AppiumCommandsPage {
 	@FindBy(xpath="//*[@text='Region']")
 	private WebElement regionButton;
 
+	private double slidePercentage = 0.90;
+
 	public SettingsPage(AppiumDriver<WebElement> driver) {
 		super(driver);
 		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
@@ -235,7 +237,7 @@ public class SettingsPage extends AppiumCommandsPage {
 	public void slideVolume() {
 		int start = volumeSeekbar.getLocation().getX();
 		int y = volumeSeekbar.getLocation().getY();
-		int max = (int) (start + ((volumeSeekbar.getSize().getWidth())*0.90));
+		int max = (int) (start + ((volumeSeekbar.getSize().getWidth())*slidePercentage));
 		TouchAction action = new TouchAction(appiumDriver);
         action.press(PointOption.point(start, y)).moveTo(PointOption.point(max, y)).release().perform();
 		}
@@ -248,7 +250,7 @@ public class SettingsPage extends AppiumCommandsPage {
 		}
 		int start = backlightSeekbar.getLocation().getX();
 		int y = backlightSeekbar.getLocation().getY();
-		int max = (int) (start + ((backlightSeekbar.getSize().getWidth())*0.90));
+		int max = (int) (start + ((backlightSeekbar.getSize().getWidth())*slidePercentage));
 		TouchAction action = new TouchAction(appiumDriver);
 		action.press(PointOption.point(start, y)).moveTo(PointOption.point(max, y)).release().perform();
 	}
