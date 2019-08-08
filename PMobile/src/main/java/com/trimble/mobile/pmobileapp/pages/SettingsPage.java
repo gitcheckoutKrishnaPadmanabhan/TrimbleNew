@@ -13,6 +13,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.touch.offset.PointOption;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SettingsPage extends AppiumCommandsPage {
 	
@@ -175,6 +176,11 @@ public class SettingsPage extends AppiumCommandsPage {
 	@FindBy(xpath="//*[@text='Settings']")
 	private WebElement settingsButton;
 
+	@FindBy(xpath="//*[@text='Region']")
+	private WebElement regionButton;
+
+	private double slidePercentage = 0.90;
+
 	public SettingsPage(AppiumDriver<WebElement> driver) {
 		super(driver);
 		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
@@ -230,23 +236,42 @@ public class SettingsPage extends AppiumCommandsPage {
 	@SuppressWarnings("rawtypes")
 	public void slideVolume() {
 		int start = volumeSeekbar.getLocation().getX();
-		int end = volumeSeekbar.getSize().getWidth();
 		int y = volumeSeekbar.getLocation().getY();
+		int max = (int) (start + ((volumeSeekbar.getSize().getWidth())*slidePercentage));
 		TouchAction action = new TouchAction(appiumDriver);
-		int moveTo = (int) (end * 0.4);
-		action.press(PointOption.point(start, y)).moveTo(PointOption.point(moveTo, y)).release().perform();
-		action.press(PointOption.point(344, 223)).moveTo(PointOption.point(787, 266)).release().perform();
-	}
+        action.press(PointOption.point(start, y)).moveTo(PointOption.point(max, y)).release().perform();
+		}
 
 	@SuppressWarnings("rawtypes")
 	public void slideBacklight() {
+		String getStatus = getElementPropertyToString("text", backLightOnOffButton);
+		if (getStatus.equalsIgnoreCase("ON")) {
+			clickElement(backLightOnOffButton);
+		}
 		int start = backlightSeekbar.getLocation().getX();
-		int end = backlightSeekbar.getSize().getWidth();
 		int y = backlightSeekbar.getLocation().getY();
+		int max = (int) (start + ((backlightSeekbar.getSize().getWidth())*slidePercentage));
 		TouchAction action = new TouchAction(appiumDriver);
-		int moveTo = (int) (end * 0.4);
-		action.press(PointOption.point(start, y)).moveTo(PointOption.point(moveTo, y)).release().perform();
-		action.press(PointOption.point(344, 299)).moveTo(PointOption.point(787, 342)).release().perform();
+		action.press(PointOption.point(start, y)).moveTo(PointOption.point(max, y)).release().perform();
+	}
+
+	public void setSlider(String Slider){
+
+		if(Slider.equalsIgnoreCase("volume")){
+			int start = volumeSeekbar.getLocation().getX();
+			int y = volumeSeekbar.getLocation().getY();
+			int end = volumeSeekbar.getSize().getWidth();
+			TouchAction action = new TouchAction(appiumDriver);
+			action.press(PointOption.point(start, y)).moveTo(PointOption.point(end, y)).release().perform();
+
+		} else if (Slider.equalsIgnoreCase("backlight")) {
+			int start = backlightSeekbar.getLocation().getX();
+			int y = backlightSeekbar.getLocation().getY();
+			int end = backlightSeekbar.getSize().getWidth();
+			TouchAction action = new TouchAction(appiumDriver);
+			action.press(PointOption.point(start, y)).moveTo(PointOption.point(end, y)).release().perform();
+         }
+
 	}
 
 	public boolean turnOnBackLight() {
@@ -287,13 +312,12 @@ public class SettingsPage extends AppiumCommandsPage {
 		if(seekbar.equalsIgnoreCase("backlightSeekbar")) {
 			x =	backlightSeekbar.getLocation().getX();
 			y = backlightSeekbar.getLocation().getY();
-		} else if (seekbar.equalsIgnoreCase("volumeSeekbar")) {
+			} else if (seekbar.equalsIgnoreCase("volumeSeekbar")) {
 			x =	volumeSeekbar.getLocation().getX();
 			y = volumeSeekbar.getLocation().getY();
 		}
-	
-	return new Point(x, y);
-	
+
+		return new Point(x, y);
 	}
 	
 	public void verifyUnitsSection() {
@@ -402,22 +426,47 @@ public class SettingsPage extends AppiumCommandsPage {
 		}
 	}
 
-	public void checkFontSelected(){
+	public void checkNormalFontSelected(){
 
-		String isSelected = getElementPropertyToString("checked", normalRadioButton);
+		    String isSelected = getElementPropertyToString("checked", normalRadioButton);
+			if(isSelected.equalsIgnoreCase("false")){
+				clickElement(normalRadioButton);
+				tapAlertPopUp("YES");
+				waitForElementVisibility(systemButton);
+				clickElement(systemButton);
+				waitForElementVisibility(settingsButton);
+				clickElement(settingsButton);
+				clickElement(fontSizeButton);
+			}
+     }
 
-		if(isSelected.equalsIgnoreCase("false")){
-			clickElement(normalRadioButton);
-			tapAlertPopUp("YES");
-			waitForElementVisibility(systemButton);
-			clickElement(systemButton);
-			waitForElementVisibility(settingsButton);
-			clickElement(settingsButton);
-			clickElement(fontSizeButton);
+	public void setFontPreCondition(String font){
+
+		if(font.equalsIgnoreCase("normal")){
+			String isSelected = getElementPropertyToString("checked", normalRadioButton);
+			if(isSelected.equalsIgnoreCase("true")){
+				clickElement(largerRadioButton);
+				tapAlertPopUp("YES");
+				waitForElementVisibility(systemButton);
+				clickElement(systemButton);
+				waitForElementVisibility(settingsButton);
+				clickElement(settingsButton);
+				clickElement(fontSizeButton);
+			}
+		} else if (font.equalsIgnoreCase("large")){
+			String isSelected = getElementPropertyToString("checked", largerRadioButton);
+			if(isSelected.equalsIgnoreCase("true")){
+				clickElement(normalRadioButton);
+				tapAlertPopUp("YES");
+				waitForElementVisibility(systemButton);
+				clickElement(systemButton);
+				waitForElementVisibility(settingsButton);
+				clickElement(settingsButton);
+				clickElement(fontSizeButton);
+			}
 		}
-
-
 	}
+
 
 	public void verifySortMessageSection() {
 
@@ -443,6 +492,9 @@ public class SettingsPage extends AppiumCommandsPage {
 			clickElement(automaticDateTimeSwitch);
 		}
 		clickElement(selectTimeZone);
+		if(regionButton.isDisplayed()){
+			clickElement(regionButton);
+		}
 		Swipe("DOWN", 5);
 		String xpath = TimeZone.toString();
 		xpath = xpath.replaceAll("__temp", timeZone);
@@ -459,8 +511,10 @@ public class SettingsPage extends AppiumCommandsPage {
 		}
         appiumDriver.findElement(By.xpath(xpath)).click();
         String time = getElementPropertyToString("text", getDeviceTime);
-        Back(1);
-        String[] splitTime = time.split(":");
+       while(!peoplenetLogo.isDisplayed()){
+		   Back(1);
+	   }
+       String[] splitTime = time.split(":");
         time = splitTime[0];
         return time;
 	}
@@ -518,6 +572,13 @@ public class SettingsPage extends AppiumCommandsPage {
   			break;
 	   }
 	}
+
+	public void waitForTimeFormatChange(){
+		String time = getElementPropertyToString("text", pMobileTime);
+        String xpath = "//*[@text='__temp']";
+		xpath = xpath.replaceAll("__temp", time);
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
+	}
 	
 	public boolean DateTimeFormatMatcher(String dateTimeFormat) {
 
@@ -530,15 +591,13 @@ public class SettingsPage extends AppiumCommandsPage {
 	    	 
           case "12 Hour-MM/DD/YY":
 		  temp = getElementPropertyToString("text", pMobileTime);
-		
 		  temp = temp.trim();
-		  
 		  regex = "^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}\\s((1[0-2]|0?[1-9]):([0-5][0-9])\\s([AaPp][Mm]))$";
 		  pattern = Pattern.compile(regex);
 		  matcher = pattern.matcher(temp);
 		  if(matcher.find()) {
 			 stringMatch = true;
-			  } 
+			}
 		  break;
 		  
 		  
@@ -550,7 +609,8 @@ public class SettingsPage extends AppiumCommandsPage {
     		  matcher = pattern.matcher(temp);
     		  if(matcher.find()) {
     			 stringMatch = true;
-    			  } 
+
+    			  }
     		  break;
     		  
     		  

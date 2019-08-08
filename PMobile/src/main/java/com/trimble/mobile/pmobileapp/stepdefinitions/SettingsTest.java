@@ -61,6 +61,7 @@ public class SettingsTest {
 	@Then("^Driver is not able to slide the Backlight seekbar$")
 	public void driver_is_not_able_to_slide_the_backlight_seekbar() throws Throwable {
 		settingsPage.slideBacklight();
+
 	}
 
 	@When("^Driver sets the Backlight Auto Dim to ON$")
@@ -71,6 +72,7 @@ public class SettingsTest {
 	@Then("^Driver is able to slide the Backlight seekbar$")
 	public void driver_is_able_to_slide_the_backlight_seekbar() throws Throwable {
 		settingsPage.slideBacklight();
+		settingsPage.setSlider("backlight");
 	}
 	
 	@When("^Driver sets the backlight to 100$")
@@ -90,6 +92,7 @@ public class SettingsTest {
 		settingsPage.clickSubSections("VolumeBacklight");
 		testContext.getScenarioContext().setContext("backLightAfterRestart", settingsPage.getBounds("backlightSeekbar"));
 		Assert.assertEquals(testContext.getScenarioContext().getContext("backLightBeforeRestart"), testContext.getScenarioContext().getContext("backLightAfterRestart"));
+		settingsPage.setSlider("backlight");
 	}
 	
 	 @When("^Driver sets the volume to 100$")
@@ -103,6 +106,7 @@ public class SettingsTest {
 		settingsPage.clickSubSections("VolumeBacklight");
 		testContext.getScenarioContext().setContext("volumeAfterRestart", settingsPage.getBounds("volumeSeekbar"));
 		Assert.assertEquals(testContext.getScenarioContext().getContext("volumeBeforeRestart"), testContext.getScenarioContext().getContext("volumeAfterRestart"));
+		settingsPage.setSlider("volume");
 	}
 
 	@Given("^Driver taps the Units section$")
@@ -143,22 +147,15 @@ public class SettingsTest {
 		Assert.assertEquals(settingsPage.SelectedRadioButton("Language"), "English");
 	}
 
-	@Then("^Driver sees a Alert pop-up with the message Changing language requires restart with Yes and No buttons and i tap Yes from the pop-up$")
-	public void driver_sees_a_alert_popup_with_the_message_changing_language_requires_restart_with_yes_and_no_buttons_and_i_tap_yes_from_the_popup()
-			throws Throwable {
-		settingsPage.tapAlertPopUp("NO");
-	}
-
 	@Given("^Driver taps the Font section$")
 	public void driver_taps_the_font_section() throws Throwable {
 		settingsPage.clickSubSections("fontSizeButton");
 		settingsPage.verifyFontSection();
 	}
 
-
-	@Given("^Driver sees that the normal radio button is selected$")
-	public void driver_sees_that_the_normal_radio_button_is_selected() throws Throwable {
-		settingsPage.checkFontSelected();
+	@Given("^Driver checks that the normal radio button is selected$")
+	public void driver_checks_that_the_normal_radio_button_is_selected() throws Throwable {
+		settingsPage.checkNormalFontSelected();
 	}
 
 	@And("^Driver checks the font are in normal size$")
@@ -193,6 +190,7 @@ public class SettingsTest {
 
 	@When("^Driver taps the large radio button$")
 	public void driver_taps_the_large_radio_button() throws Throwable {
+		settingsPage.setFontPreCondition("large");
 		settingsPage.chooseFontRadioButtons("Large");
 	}
 
@@ -202,7 +200,17 @@ public class SettingsTest {
 		settingsPage.tapAlertPopUp("NO");
 	}
 
-	@And("^Driver waits for the pop-up to close after 30 seconds time out$")
+	@And("^Driver sets the font size back to normal size$")
+	public void driver_sets_the_font_size_back_to_normal_size() throws Throwable {
+		settingsPage.clickSubSections("fontSizeButton");
+		settingsPage.chooseFontRadioButtons("Normal");
+		settingsPage.tapAlertPopUp("YES");
+		toolBar.waitTillPageTitleDisplayed("Home");
+		driver_is_on_the_settings_screen();
+	}
+
+
+	@Then("^Driver waits for the pop-up to close after 30 seconds time out$")
 	public void driver_waits_for_the_popup_to_close_after_30_seconds_time_out() throws Throwable {
 		settingsPage.waitforAlertPopUpClose();
 	}
@@ -269,4 +277,10 @@ public class SettingsTest {
 	 public void driver_sees_the_selected_something_displayed_in_the_top_right_screen(String datetimeformat) throws Throwable {
 		  Assert.assertEquals(settingsPage.DateTimeFormatMatcher(datetimeformat), true);
 	  }
+
+	@And("^Driver waits for a minute to see the time format change in the application$")
+	public void driver_waits_for_a_minute_to_see_the_time_format_change_in_the_application() throws Throwable {
+		settingsPage.waitForTimeFormatChange();
+	}
+
 }
